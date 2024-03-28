@@ -1,0 +1,16 @@
+:root{
+    --border-width: calc(var(--rows)*0.5);
+    --total-height: calc(100vh - 70px);
+}
+
+.row{
+    height: calc(var(--total-height)/var(--rows));
+    width: calc(100vw - var(--border-width));
+    display: flex;
+}
+
+.cell{
+    height: 100%;
+    width: calc(100vw/var(--cols));
+    border: 0.5px solid black;
+}

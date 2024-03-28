@@ -1,11 +1,12 @@
 import './App.css'
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar';
+import Grid from './components/Grid';
 
 function App() {
   return (
     <>
       <Navbar />
-      Vite App
+      <Grid numRows={25} numCols={35}/>
     </>
   )
 }
