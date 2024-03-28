@@ -7,9 +7,9 @@ const Grid = ({ numRows, numCols }) => {
   for (let i = 0; i < numRows; i++) {
     const cells = [];
     for (let j = 0; j < numCols; j++) {
-      cells.push(<div id={`${i}-${j}`} className="cell"></div>);
+      cells.push(<div id={`${i}-${j}`} className="grid-cell"></div>);
     }
-    rows.push(<div key={i} className="row">{cells}</div>);
+    rows.push(<div key={i} className="grid-row">{cells}</div>);
   }
 
   return (
@@ -22,3 +22,9 @@ const Grid = ({ numRows, numCols }) => {
 };
 
 export default Grid;
+
+//Logos
+//Start: <i class="bi bi-geo-alt-fill"></i>
+//Destination: <i class="bi bi-geo-fill"></i>
+//Wall: <i class="bi bi-bricks"></i>
+//Mine: <i class="bi bi-virus"></i>

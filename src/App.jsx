@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <Grid numRows={25} numCols={35}/>
+      <Grid numRows={25} numCols={42}/>
     </>
   )
 }

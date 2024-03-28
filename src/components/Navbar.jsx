@@ -4,7 +4,7 @@ import "./css/Navbar.css";
 import { BsGeoAlt, BsGeo, BsBricks, 
          BsVirus, BsArrowCounterclockwise, 
          BsCaretRight 
-        } from "react-icons/bs";
+       } from "react-icons/bs";
 
 
 const Navbar = () => {
