@@ -1,4 +1,4 @@
-nav {
+.nav-container {
     background-color: black;
     color: white;
     padding: 10px;
@@ -8,49 +8,43 @@ nav {
     justify-content: center;
 }
 
-nav ul {
+.nav-item-container {
     margin: 0px auto;
     width: max-content;
     list-style-type: none;
     display: flex;
-    gap: 5vw;
+    gap: 7vw;
 }
 
-nav ul li button {
+.nav-item-btn {
     padding: 8px 14px;
     background-color: #3b82f6;
     color: white;
-    font-size: 15px;
-    font-weight: 400;
-    border-radius: 2vw;
-    border: 1px solid white;
+    border-radius: 1vw;
 }
 
-nav ul li button:hover {
+.nav-item-btn:hover {
     background-color: royalblue;
     cursor: pointer;
 }
 
 #algoSelect {
-    margin-top: 5px;
+    margin-top: 2px;
     padding: 5px;
+    width: 12vw;
     font-size: 15px;
 }
 
 @media only screen and (max-width: 800px)  {
-    nav {
-        height: 100px;
-    }
+   .nav-container {
+        height: 150px;
+   }
 
-    nav ul li button {
-        font-size: 10px;
-    }
+   .nav-item-container {
+        flex-wrap: wrap;
+   }
 
-    #algoSelect {
-        margin-top: 5px;
-        padding: 1px;
-        position: absolute;
-        left: 29%;
-        top: 50px;
-    }
+   #algoSelect {
+    width: 32vw;
+   }
 }
