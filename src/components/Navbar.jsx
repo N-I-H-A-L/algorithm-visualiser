@@ -26,7 +26,7 @@ const Navbar = () => {
                         <button className="nav-item-btn" title="Start" onClick={handleModeChange}><BsGeoAlt size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Destination" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
+                        <button className="nav-item-btn" title="Target" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
                         <button className="nav-item-btn" title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
