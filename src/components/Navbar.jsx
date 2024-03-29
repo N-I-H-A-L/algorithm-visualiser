@@ -7,14 +7,15 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode } = useParams();
+    const { algo, setAlgo, setMode } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
     }
 
     const handleModeChange = (e) => {
-        setMode("set" + e.target.title);
+        //Use currentTarget to get "button" element else it will retrieve the SVG element.
+        setMode("set" + e.currentTarget.title);
     }
 
     return (
@@ -22,16 +23,16 @@ const Navbar = () => {
             <nav className="nav-container">
                 <ul className="nav-item-container">
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Start" onClick={(e) => handleModeChange(e)}><BsGeoAlt title="Start" size={"20px"}/></button>
+                        <button className="nav-item-btn" title="Start" onClick={handleModeChange}><BsGeoAlt size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Destination" onClick={(e) => handleModeChange(e)}><BsGeo title="Destination" size={"20px"}/></button>
+                        <button className="nav-item-btn" title="Destination" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Wall" onClick={(e) => handleModeChange(e)}><BsBricks title="Wall" size={"20px"}/></button>
+                        <button className="nav-item-btn" title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Virus" onClick={(e) => handleModeChange(e)}><BsVirus title="Virus" size={"20px"}/></button>
+                        <button className="nav-item-btn" title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
                         <button className="nav-item-btn"><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>

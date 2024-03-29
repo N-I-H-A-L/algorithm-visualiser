@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState, createContext } from "react";
+import { useContext, useEffect, useState, createContext } from "react";
 import { getGrid } from "../utils/startingGrid";
 
 const context = createContext();
@@ -55,3 +55,9 @@ export const ParamsProvider = ({children}) => {
         </div>
     );
 }
+
+//List of Modes
+//setStart, setDestination, setWall, setVirus
+
+//List of Algos
+//bfs, dfs, dijkstra
