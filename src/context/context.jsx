@@ -15,15 +15,24 @@ export const ParamsProvider = ({children}) => {
     const [editing, setEditing] = useState(false);
     const [reset, setReset] = useState(false);
     const [play, setPlay] = useState(false);
-    const startLocation = useRef({x: 12, y: 21});
-    const targetLocation = useRef({x: 8, y: 21});
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [rows, setRows] = useState(25);
+    const [cols, setCols] = useState(42);
+    let startLocation = {x: Math.floor(rows/2), y: Math.floor(cols/2)};
+    let targetLocation = {x: Math.floor(rows/2 - 4), y: Math.floor(cols/2)};
 
     useEffect(() => {
         restart();
     }, [reset])
 
+    useEffect(() => {
+        setGrid(getGrid(rows, cols));
+        startLocation = {x: Math.floor(rows/2), y: Math.floor(cols/2)};
+        targetLocation = {x: Math.floor(rows/2 - 4), y: Math.floor(cols/2)};
+    }, [rows, cols]);
+
     function restart() {
-        setGrid(getGrid(25, 42));
+        setGrid(getGrid(rows, cols));
     }
 
     return (
@@ -32,9 +41,12 @@ export const ParamsProvider = ({children}) => {
                 mode, setMode,
                 algo, setAlgo,
                 grid, setGrid,
+                editing, setEditing,
                 reset, setReset,
                 play, setPlay,
-                editing, setEditing,
+                windowWidth, setWindowWidth,
+                rows, setRows,
+                cols, setCols,
                 startLocation,
                 targetLocation,
             }}>

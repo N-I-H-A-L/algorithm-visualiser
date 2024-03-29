@@ -3,6 +3,12 @@
     --total-height: calc(100vh - 70px);
 }
 
+@media screen and (max-width: 800px) {
+    :root {
+        --total-height: calc(100vh - 150px);
+    }
+}
+
 .grid-row{
     height: calc(var(--total-height)/var(--rows));
     width: calc(100vw - var(--border-width));
