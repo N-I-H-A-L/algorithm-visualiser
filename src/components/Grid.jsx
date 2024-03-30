@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "./css/Grid.css";
 import { useParams } from '../context/context';
+import { BsGeoAlt, BsGeo, BsBricks, BsVirus
+        } from "react-icons/bs";
 
 const Grid = ({ numRows, numCols }) => {
   const { mode, grid, setGrid } = useParams();
@@ -12,10 +14,10 @@ const Grid = ({ numRows, numCols }) => {
     for(let j = 0; j < grid[i].length; j++){
       cells.push(
         <div id={`${i}-${j}`} key={`${i}-${j}`} className="grid-cell" onClick={(e) => handleClick(e)}>
-          {grid[i][j].isStart ? <i className="bi bi-geo-alt-fill"></i> : null}
-          {grid[i][j].isTarget ? <i className="bi bi-geo-fill"></i> : null}
-          {grid[i][j].isWall ? <i className="bi bi-bricks"></i> : null}
-          {grid[i][j].weight>1 ? <i className="bi bi-virus"></i> : null}
+          {grid[i][j].isStart ? <BsGeoAlt /> : null}
+          {grid[i][j].isTarget ? <BsGeo /> : null}
+          {grid[i][j].isWall ? <BsBricks /> : null}
+          {grid[i][j].weight>1 ? <BsVirus /> : null}
         </div>
       );
     }
@@ -88,7 +90,7 @@ const Grid = ({ numRows, numCols }) => {
     manuallyTriggerUpdate();
 
   }
-  console.log(useParams());
+  // console.log(useParams());
 
   return (
     <>

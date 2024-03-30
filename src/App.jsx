@@ -31,7 +31,7 @@ function App() {
     }
   }, [windowWidth]);
   
-  console.log(useParams());
+  // console.log(useParams());
 
   return (
     <>
