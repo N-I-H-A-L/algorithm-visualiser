@@ -7,7 +7,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, reset, setReset, setPlay } = useParams();
+    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -21,6 +21,44 @@ const Navbar = () => {
             if (mode == modeVal)  setMode(null);
             else setMode(modeVal);
         }
+    }
+
+    const getStartAndTarget = () =>{
+        let start = null, target = null;
+        for(let i = 0; i<grid.length; i++){
+            for(let j = 0; j<grid[i].length; j++){
+                if(grid[i][j].isStart) start = {i, j};
+                else if(grid[i][j].isTarget) target = {i, j};
+            }
+        }
+
+        return [start, target];
+    }
+
+    const handlePlay = () =>{
+        if(play) return;
+        setPlay(true);
+
+        //If algorithm is not chosen.
+        if(algo=="" || algo=="none") alert("Please choose an algorithm.");
+        const [start, target] = getStartAndTarget();
+
+        //If start and target are not set.
+        if(start==null || target==null) alert("Please choose a start and target location.");
+        else{
+            if(algo=="bfs"){
+
+            }
+            else if(algo=="dfs"){
+
+            }
+            else if(algo=="dijkstra"){
+                
+            }
+        }
+
+        //After running algo set play as false.
+        setPlay(false);
     }
 
     return (
@@ -43,7 +81,7 @@ const Navbar = () => {
                         <button className="nav-item-btn" onClick={() => setReset(!reset)}><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn"><BsCaretRight title="Play" size={"20px"} /></button>
+                        <button className="nav-item-btn" onClick={() => handlePlay()}><BsCaretRight title="Play" size={"20px"} /></button>
                     </li>
                     <li className="nav-item">
                         <select name="algoSelect" id="algoSelect" value={algo} onChange={(e) => handleSelectChange(e)}>
