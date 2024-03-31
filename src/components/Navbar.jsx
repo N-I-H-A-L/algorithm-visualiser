@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./css/Navbar.css";
 import { useParams } from "../context/context";
 import { BsGeoAlt, BsGeo, BsBricks, 
@@ -7,7 +7,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, setMode } = useParams();
+    const { algo, setAlgo, mode, setMode, setres, setrun } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -23,16 +23,16 @@ const Navbar = () => {
             <nav className="nav-container">
                 <ul className="nav-item-container">
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Start" onClick={handleModeChange}><BsGeoAlt size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setStart"?"selected":""].join(" ")} title="Start" onClick={handleModeChange}><BsGeoAlt size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Target" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setTarget"?"selected":""].join(" ")} title="Target" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setWall"?"selected":""].join(" ")} title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setVirus"?"selected":""].join(" ")} title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
                         <button className="nav-item-btn"><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
