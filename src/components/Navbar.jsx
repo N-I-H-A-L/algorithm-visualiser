@@ -7,7 +7,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, setres, setrun } = useParams();
+    const { algo, setAlgo, mode, setMode, setReset, setrun } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -15,7 +15,13 @@ const Navbar = () => {
 
     const handleModeChange = (e) => {
         //Use currentTarget to get "button" element else it will retrieve the SVG element.
-        setMode("set" + e.currentTarget.title);
+        const modeVal = "set" + e.currentTarget.title;
+        if(mode == null) {
+            setMode(modeVal);
+        } else {
+            if (mode == modeVal)  setMode(null);
+            else {setMode(modeVal)}
+        }
     }
 
     return (
@@ -35,7 +41,7 @@ const Navbar = () => {
                         <button className={["nav-item-btn", mode=="setVirus"?"selected":""].join(" ")} title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn"><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
+                        <button className="nav-item-btn" onClick={() => {setReset(true)}}><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
                     </li>
                     <li className="nav-item">
                         <button className="nav-item-btn"><BsCaretRight title="Play" size={"20px"} /></button>
