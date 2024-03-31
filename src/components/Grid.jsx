@@ -6,7 +6,7 @@ import { BsGeoAlt, BsGeo, BsBricks, BsVirus
 import { getUpdatedGrid } from '../utils/updatingGrid';
 
 const Grid = ({ numRows, numCols }) => {
-  const { mode, grid, setGrid, editing, setEditing } = useParams();
+  const { mode, grid, editing, setEditing } = useParams();
 
   const tempRows = []
 
@@ -43,14 +43,9 @@ const Grid = ({ numRows, numCols }) => {
         flags[3]=true;
       }
 
-      const updatedGrid = getUpdatedGrid(grid, row, col, flags);
-      if(updatedGrid != grid) {
-        setGrid(updatedGrid);
-      }
+      getUpdatedGrid(grid, row, col, flags);
       setEditing(1-editing);
   }
-
-  // console.log(useParams());
 
   return (
     <>

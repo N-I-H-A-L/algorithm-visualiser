@@ -7,7 +7,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, setReset, setrun } = useParams();
+    const { algo, setAlgo, mode, setMode, setReset, setPlay } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
