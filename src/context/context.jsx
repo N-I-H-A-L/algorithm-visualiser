@@ -12,7 +12,7 @@ export const ParamsProvider = ({children}) => {
     const [mode, setMode] = useState(null);
     const [algo, setAlgo] = useState('');
     const [grid, setGrid] = useState(getGrid(25, 42));
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(0);
     const [reset, setReset] = useState(false);
     const [play, setPlay] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
