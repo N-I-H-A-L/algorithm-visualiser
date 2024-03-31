@@ -7,7 +7,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
        } from "react-icons/bs";
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid } = useParams();
+    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, editing, setEditing } = useParams();
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -23,19 +23,49 @@ const Navbar = () => {
         }
     }
 
-    const getStartAndTarget = () =>{
+    const getStartAndTarget = () => {
         let start = null, target = null;
         for(let i = 0; i<grid.length; i++){
             for(let j = 0; j<grid[i].length; j++){
-                if(grid[i][j].isStart) start = {i, j};
-                else if(grid[i][j].isTarget) target = {i, j};
+                if(grid[i][j].isStart) start = {row: i, col: j};
+                else if(grid[i][j].isTarget) target = {row: i, col: j};
             }
         }
 
         return [start, target];
     }
 
-    const handlePlay = () =>{
+    const bfs = (start, target) => {
+        let queue = [];
+        queue.push([start, 0]);
+        let level = -1;
+        const targetRow = target.row, targetCol = target.col;
+        while(queue.length){
+            let front = queue.shift();
+            const {row, col} = front[0];
+            let currLevel = front[1];
+            
+            if(grid[row][col].isVisited || grid[row][col].isWall) continue;
+            grid[row][col].isVisited = true;
+
+            if(row===targetRow && col===targetCol){
+                console.log("finished");
+                break;
+            }
+            if(level!=currLevel){
+                //re-render grid
+                setEditing(!editing);
+                level = currLevel;
+            }
+
+            if(row+1<grid.length) queue.push([{row: row+1, col}, currLevel+1]);
+            if(row-1>=0) queue.push([{row: row-1, col}, currLevel+1]);
+            if(col+1<grid[0].length) queue.push([{row, col: col+1}, currLevel+1]);
+            if(col-1>=0) queue.push([{row, col: col-1}, currLevel+1]);
+        }
+    }
+
+    const handlePlay = () => {
         if(play) return;
         setPlay(true);
 
@@ -47,13 +77,13 @@ const Navbar = () => {
         if(start==null || target==null) alert("Please choose a start and target location.");
         else{
             if(algo=="bfs"){
-
+                bfs(start, target);
             }
             else if(algo=="dfs"){
 
             }
             else if(algo=="dijkstra"){
-                
+
             }
         }
 

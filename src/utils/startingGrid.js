@@ -12,6 +12,7 @@ export function getGrid(numRows, numCols) {
                 isTarget: false,
                 weight: 1,
                 isWall: false,
+                isVisited: false,
             });
         }
         grid.push(columns);
