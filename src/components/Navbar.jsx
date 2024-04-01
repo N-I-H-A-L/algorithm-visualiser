@@ -59,23 +59,34 @@ const Navbar = () => {
         return pi;
     }
 
+    const tracePath = async (path) => {
+        console.log(path);
+        for(let i = path.length-1; i>=0; i--){
+            const { row, col } = path[i];
+            grid[row][col].isVisited = false;
+            grid[row][col].isPath = true;
+            setEditing(prevEditing => !prevEditing);
+            await timeDelay(delay);
+        }
+    }
+
     const printPath = (pi, start, target) => {
         const path = [];
+        const dest = target;
 
         while(start != target) {
             const {row, col} = target;
             const descendent = pi[row][col];
 
             if(descendent == null) {
-                path.push(null);
                 break;
             }
             path.push(descendent);
             target = descendent;
         }
-        path.push(start);
-
-        console.log(path);
+        
+        path.unshift(dest);
+        return path;
     }
 
     const bfs = async (start, target) => {
@@ -122,8 +133,8 @@ const Navbar = () => {
         await timeDelay(delay);
         setEditing(prevEditing => !prevEditing);
 
-        // console.log(pi);
-        printPath(pi, start, target);
+        const path = printPath(pi, start, target);
+        tracePath(path);
     }
 
     const handlePlay = () => {

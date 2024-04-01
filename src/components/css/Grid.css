@@ -31,10 +31,8 @@
     width: 100%;
 }
 
-.icon{
+.path{
+    background-color: blue;
     height: 100%;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

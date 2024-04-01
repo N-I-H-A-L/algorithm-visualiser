@@ -15,6 +15,7 @@ const Grid = ({ numRows, numCols }) => {
     for(let j = 0; j < grid[i].length; j++){
       cells.push(
         <div id={`${i}-${j}`} key={`${i}-${j}`} className="grid-cell" onClick={(e) => handleClick(e)}>
+          {grid[i][j].isPath? <div className='path'></div> : null}
           {grid[i][j].isVisited? <div className='visited'></div> : null}
           {grid[i][j].isStart ? <BsGeoAlt /> : null}
           {grid[i][j].isTarget ? <BsGeo /> : null}
