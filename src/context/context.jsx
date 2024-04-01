@@ -11,13 +11,13 @@ export const ParamsProvider = ({children}) => {
 
     const [mode, setMode] = useState(null);
     const [algo, setAlgo] = useState('');
-    const [grid, setGrid] = useState(getGrid(25, 42));
     const [editing, setEditing] = useState(0);
     const [reset, setReset] = useState(false);
     const [play, setPlay] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [rows, setRows] = useState(25);
     const [cols, setCols] = useState(42);
+    const [grid, setGrid] = useState(getGrid(rows, cols));
     let startLocation = {x: Math.floor(rows/2), y: Math.floor(cols/2)};
     let targetLocation = {x: Math.floor(rows/2 - 4), y: Math.floor(cols/2)};
 

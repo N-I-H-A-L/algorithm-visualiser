@@ -56,7 +56,6 @@ const Navbar = () => {
             
             if(grid[row][col].isVisited || grid[row][col].isWall) continue;
             grid[row][col].isVisited = true;
-            console.log(currLevel);
 
             if(level!=currLevel){
                 //re-render grid
@@ -65,12 +64,8 @@ const Navbar = () => {
                 level = currLevel + 1;
             }
             
-            if(row===targetRow && col===targetCol){
-                console.log("finished");
-                break;
-            }
+            if(row===targetRow && col===targetCol) break;
             
-            console.log("add next level");
             if(row+1<grid.length) queue.push([{row: row+1, col}, currLevel+1]);
             if(row-1>=0) queue.push([{row: row-1, col}, currLevel+1]);
             if(col+1<grid[0].length) queue.push([{row, col: col+1}, currLevel+1]);
