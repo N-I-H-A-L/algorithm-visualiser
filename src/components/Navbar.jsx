@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/Navbar.css";
 import { useParams } from "../context/context";
 import { BsGeoAlt, BsGeo, BsBricks, 
@@ -8,6 +8,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
 
 const Navbar = () => {
     const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, editing, setEditing } = useParams();
+    const [delay, setDelay] = useState(100);
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -23,6 +24,10 @@ const Navbar = () => {
         }
     }
 
+    const handleDelayChange = (e) => {
+        setDelay(e.target.value);
+    }
+
     const getStartAndTarget = () => {
         let start = null, target = null;
         for(let i = 0; i<grid.length; i++){
@@ -35,10 +40,14 @@ const Navbar = () => {
         return [start, target];
     }
 
-    const bfs = (start, target) => {
+    async function timeDelay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const bfs = async (start, target) => {
         let queue = [];
         queue.push([start, 0]);
-        let level = -1;
+        let level = 0;
         const targetRow = target.row, targetCol = target.col;
         while(queue.length){
             let front = queue.shift();
@@ -47,22 +56,28 @@ const Navbar = () => {
             
             if(grid[row][col].isVisited || grid[row][col].isWall) continue;
             grid[row][col].isVisited = true;
+            console.log(currLevel);
 
+            if(level!=currLevel){
+                //re-render grid
+                setEditing(prevEditing => !prevEditing);
+                await timeDelay(delay);
+                level = currLevel + 1;
+            }
+            
             if(row===targetRow && col===targetCol){
                 console.log("finished");
                 break;
             }
-            if(level!=currLevel){
-                //re-render grid
-                setEditing(!editing);
-                level = currLevel;
-            }
-
+            
+            console.log("add next level");
             if(row+1<grid.length) queue.push([{row: row+1, col}, currLevel+1]);
             if(row-1>=0) queue.push([{row: row-1, col}, currLevel+1]);
             if(col+1<grid[0].length) queue.push([{row, col: col+1}, currLevel+1]);
             if(col-1>=0) queue.push([{row, col: col-1}, currLevel+1]);
         }
+        await timeDelay(delay);
+        setEditing(prevEditing => !prevEditing);
     }
 
     const handlePlay = () => {
@@ -121,6 +136,9 @@ const Navbar = () => {
                             <option id="dijkstra" value="dijkstra">Dijkstra</option>
                             {/* <option value="bds">BDS</option> */}
                         </select>
+                    </li>
+                    <li>
+                        <input type="number" className="delay-input" placeholder="Set delay" onChange={(e) => handleDelayChange(e)}></input>
                     </li>
                 </ul>
             </nav>
