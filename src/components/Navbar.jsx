@@ -44,8 +44,44 @@ const Navbar = () => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    const initializePi = () => {
+        const pi = [];
+        const [numRows, numCols] = [grid.length, grid[0].length];
+
+        for (let i = 0; i < numRows; i++) {
+            const cols = [];
+
+            for (let j = 0; j < numCols; j++) {
+                cols.push(null);
+            }
+            pi.push(cols);
+        }
+        return pi;
+    }
+
+    const printPath = (pi, start, target) => {
+        const path = [];
+
+        while(start != target) {
+            const {row, col} = target;
+            const descendent = pi[row][col];
+
+            if(descendent == null) {
+                path.push(null);
+                break;
+            }
+            path.push(descendent);
+            target = descendent;
+        }
+        path.push(start);
+
+        console.log(path);
+    }
+
     const bfs = async (start, target) => {
         let queue = [];
+        const pi = initializePi();
+
         queue.push([start, 0]);
         let level = 0;
         const targetRow = target.row, targetCol = target.col;
@@ -65,14 +101,29 @@ const Navbar = () => {
             }
             
             if(row===targetRow && col===targetCol) break;
-            
-            if(row+1<grid.length) queue.push([{row: row+1, col}, currLevel+1]);
-            if(row-1>=0) queue.push([{row: row-1, col}, currLevel+1]);
-            if(col+1<grid[0].length) queue.push([{row, col: col+1}, currLevel+1]);
-            if(col-1>=0) queue.push([{row, col: col-1}, currLevel+1]);
+
+            if(row-1>=0 && !grid[row-1][col].isVisited) {
+                queue.push([{row: row-1, col}, currLevel+1]);
+                pi[row-1][col] = front[0];
+            }
+            if(col+1<grid[0].length && !grid[row][col+1].isVisited) {
+                queue.push([{row, col: col+1}, currLevel+1]);
+                pi[row][col+1] = front[0];
+            }
+            if(row+1<grid.length && !grid[row+1][col].isVisited) {
+                queue.push([{row: row+1, col}, currLevel+1]);
+                pi[row+1][col] = front[0];
+            }
+            if(col-1>=0 && !grid[row][col-1].isVisited) {
+                queue.push([{row, col: col-1}, currLevel+1]);
+                pi[row][col-1] = front[0];
+            }
         }
         await timeDelay(delay);
         setEditing(prevEditing => !prevEditing);
+
+        // console.log(pi);
+        printPath(pi, start, target);
     }
 
     const handlePlay = () => {
