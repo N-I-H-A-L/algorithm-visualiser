@@ -13,14 +13,18 @@ const Grid = ({ numRows, numCols }) => {
   for(let i = 0; i < grid.length; i++){
     const cells = [];
     for(let j = 0; j < grid[i].length; j++){
+      const cell = grid[i][j];
+
       cells.push(
-        <div id={`${i}-${j}`} key={`${i}-${j}`} className="grid-cell" onClick={(e) => handleClick(e)}>
-          {grid[i][j].isPath? <div className='path'></div> : null}
-          {grid[i][j].isVisited? <div className='visited'></div> : null}
-          {grid[i][j].isStart ? <BsGeoAlt /> : null}
-          {grid[i][j].isTarget ? <BsGeo /> : null}
-          {grid[i][j].isWall ? <BsBricks /> : null}
-          {grid[i][j].weight>1 ? <BsVirus /> : null}
+        <div 
+          id={`${i}-${j}`} key={`${i}-${j}`} 
+          className={["grid-cell", cell.isVisited?"visited":'', cell.isPath?"path":''].join(" ")}
+          onClick={(e) => handleClick(e)}
+        >
+          {cell.isStart ? <BsGeoAlt /> : null}
+          {cell.isTarget ? <BsGeo /> : null}
+          {cell.isWall ? <BsBricks /> : null}
+          {cell.weight>1 ? <BsVirus /> : null}
         </div>
       );
     }
