@@ -137,6 +137,45 @@ const Navbar = () => {
         tracePath(path);
     }
 
+    const dfs = async (start, target) => {
+        const stk = [];
+        const pi = initializePi();
+
+        stk.push(start);
+        while(stk.length) {
+            let top = stk.pop();
+            const {row, col} = top;
+
+            if(row===target.row && col===target.col) break;
+
+            if(!grid[row][col].isVisited) {
+                grid[row][col].isVisited = true;
+
+                //re-render grid
+                setEditing(prevEditing => !prevEditing);
+                await timeDelay(delay);
+                
+                if(row-1>=0) {
+                    stk.push({row: row-1, col});
+                    pi[row-1][col] = top;
+                }
+                if(col+1<grid[0].length) {
+                    stk.push({row, col: col+1});
+                    pi[row][col+1] = top;
+                }
+                if(row+1<grid.length) {
+                    stk.push({row: row+1, col});
+                    pi[row+1][col] = top;
+                }
+                if(col-1>=0) {
+                    stk.push({row, col: col-1});
+                    pi[row][col-1] = top;
+                }
+            }
+        }
+
+    }
+
     const handlePlay = () => {
         if(play) return;
         setPlay(true);
@@ -152,7 +191,7 @@ const Navbar = () => {
                 bfs(start, target);
             }
             else if(algo=="dfs"){
-
+                dfs(start, target);
             }
             else if(algo=="dijkstra"){
 
