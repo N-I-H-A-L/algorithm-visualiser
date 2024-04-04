@@ -45,7 +45,7 @@ export function getUpdatedGrid(grid, row, col, flags) {
         //If current cell is neither a start, nor a target nor a wall:
         if (!grid[row][col].isStart && !grid[row][col].isTarget && !grid[row][col].isWall) {
             if (grid[row][col].weight > 1) updatedGrid[row][col].weight = 1;
-            else updatedGrid[row][col].weight = 5;
+            else updatedGrid[row][col].weight = 75;
         }
     }
     return updatedGrid;

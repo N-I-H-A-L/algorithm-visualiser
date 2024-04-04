@@ -5,9 +5,10 @@ import { BsGeoAlt, BsGeo, BsBricks,
          BsVirus, BsArrowCounterclockwise, 
          BsCaretRight 
        } from "react-icons/bs";
+import { PriorityQueue } from '@datastructures-js/priority-queue';
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, editing, setEditing } = useParams();
+    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, setEditing } = useParams();
     const [delay, setDelay] = useState(100);
 
     const handleSelectChange = (e) => {
@@ -60,7 +61,6 @@ const Navbar = () => {
     }
 
     const tracePath = async (path) => {
-        // console.log(path);
         for(let i = path.length-1; i>=0; i--){
             const { row, col } = path[i];
             grid[row][col].isVisited = false;
@@ -70,7 +70,21 @@ const Navbar = () => {
         }
     }
 
-    const printPath = (pi, start, target) => {
+    const getPathMap = (hashMap, target) => {
+        const path = [];
+        path.push(target);
+        let descendant = hashMap.get(JSON.stringify(target));
+        let parsed = JSON.parse(descendant);
+        while((parsed.row != -1) && (parsed.col != -1)){
+            path.push(parsed);
+            descendant = hashMap.get(JSON.stringify(parsed));
+            parsed = JSON.parse(descendant);
+        }
+
+        return path;
+    }
+
+    const getPath = (pi, start, target) => {
         const path = [];
         const dest = target;
 
@@ -133,7 +147,7 @@ const Navbar = () => {
         await timeDelay(delay);
         setEditing(prevEditing => !prevEditing);
 
-        const path = printPath(pi, start, target);
+        const path = getPath(pi, start, target);
         tracePath(path);
     }
 
@@ -145,7 +159,7 @@ const Navbar = () => {
         while(stk.length) {
             let top = stk.pop();
             const {row, col} = top;
-
+            
             if(!grid[row][col].isVisited && !grid[row][col].isWall) {
                 grid[row][col].isVisited = true;
 
@@ -174,7 +188,59 @@ const Navbar = () => {
             if(row===target.row && col===target.col) break;
         }
 
-        const path = printPath(pi, start, target);
+        const path = getPath(pi, start, target);
+        tracePath(path);
+    }
+
+    const dijkstra = async (start, target) => {
+        const rows = grid.length, cols = grid[0].length;
+
+        //1e9 represents infinite value
+        const distance = new Array(rows*cols).fill(1e9);
+
+        //Elements with lower value should have higher priority.
+        const pq = new PriorityQueue((a, b) => {
+            return a[0] < b[0] ? -1 : 1;
+          }
+        );
+
+        const hashMap = new Map();
+
+        pq.enqueue([0, start, {
+            row: -1,
+            col: -1
+        }]);
+
+        while(!pq.isEmpty()){
+            const minElement = pq.dequeue();
+
+            const currDist = minElement[0];
+            const { row, col } = minElement[1];
+            const parent = minElement[2];
+            const cell = row*cols + col;
+            
+            //If cell is already reached at a lower or equal distance, ignore.
+            if(distance[cell]<=currDist || grid[row][col].isWall) continue;
+            distance[cell] = currDist;
+            
+            grid[row][col].isVisited = true;
+            setEditing(prevEditing=> !prevEditing);
+            await timeDelay(100);
+            
+            //Add to hashMap
+            hashMap.set(JSON.stringify(minElement[1]), JSON.stringify(parent));
+
+            if(row==target.row && col==target.col) break;
+            
+            //Add adjacent nodes
+            const weight = grid[row][col].weight;
+            if(row+1<rows) pq.enqueue(([currDist + weight, {row: row+1, col}, {row, col}]));
+            if(col+1<cols) pq.enqueue(([currDist + weight, {row, col: col+1}, {row, col}]));
+            if(row-1>=0) pq.enqueue(([currDist + weight, {row: row-1, col}, {row, col}]));
+            if(col-1>=0) pq.enqueue(([currDist + weight, {row, col: col-1}, {row, col}]));
+        }
+
+        const path = getPathMap(hashMap, target);
         tracePath(path);
     }
 
@@ -196,7 +262,7 @@ const Navbar = () => {
                 dfs(start, target);
             }
             else if(algo=="dijkstra"){
-
+                dijkstra(start, target);
             }
         }
 
@@ -236,7 +302,7 @@ const Navbar = () => {
                         </select>
                     </li>
                     <li>
-                        <input type="number" className="delay-input" placeholder="Set delay" onChange={(e) => handleDelayChange(e)}></input>
+                        <input type="number" className="delay-input" placeholder="Delay" onChange={(e) => handleDelayChange(e)}></input>
                     </li>
                 </ul>
             </nav>
