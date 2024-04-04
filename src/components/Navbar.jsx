@@ -60,7 +60,7 @@ const Navbar = () => {
     }
 
     const tracePath = async (path) => {
-        console.log(path);
+        // console.log(path);
         for(let i = path.length-1; i>=0; i--){
             const { row, col } = path[i];
             grid[row][col].isVisited = false;
@@ -146,34 +146,36 @@ const Navbar = () => {
             let top = stk.pop();
             const {row, col} = top;
 
-            if(row===target.row && col===target.col) break;
-
-            if(!grid[row][col].isVisited) {
+            if(!grid[row][col].isVisited && !grid[row][col].isWall) {
                 grid[row][col].isVisited = true;
 
                 //re-render grid
                 setEditing(prevEditing => !prevEditing);
                 await timeDelay(delay);
-                
-                if(row-1>=0) {
+
+                if(row-1>=0 && !grid[row-1][col].isVisited) {
                     stk.push({row: row-1, col});
                     pi[row-1][col] = top;
                 }
-                if(col+1<grid[0].length) {
-                    stk.push({row, col: col+1});
-                    pi[row][col+1] = top;
-                }
-                if(row+1<grid.length) {
-                    stk.push({row: row+1, col});
-                    pi[row+1][col] = top;
-                }
-                if(col-1>=0) {
+                if(col-1>=0 && !grid[row][col-1].isVisited) {
                     stk.push({row, col: col-1});
                     pi[row][col-1] = top;
                 }
+                if(row+1<grid.length && !grid[row+1][col].isVisited) {
+                    stk.push({row: row+1, col});
+                    pi[row+1][col] = top;
+                }
+                if(col+1<grid[0].length && !grid[row][col+1].isVisited) {
+                    stk.push({row, col: col+1});
+                    pi[row][col+1] = top;
+                }
             }
+
+            if(row===target.row && col===target.col) break;
         }
 
+        const path = printPath(pi, start, target);
+        tracePath(path);
     }
 
     const handlePlay = () => {
