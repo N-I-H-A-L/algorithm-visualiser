@@ -3,9 +3,10 @@ import Navbar from './components/Navbar';
 import Grid from './components/Grid';
 import { useParams } from './context/context';
 import { useEffect } from 'react';
+import CostBox from './components/Costbox';
 
 function App() {
-  const { windowWidth, setWindowWidth, rows, setRows, cols, setCols} = useParams();
+  const { windowWidth, setWindowWidth, rows, setRows, cols, setCols, algo, cost} = useParams();
   setWindowWidth(window.innerWidth);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
     <>
       <Navbar />
       <Grid numRows={rows} numCols={cols}/>
+      {(algo == "dijkstra") ? <CostBox cost={cost} /> : ""}
     </>
   )
 }
