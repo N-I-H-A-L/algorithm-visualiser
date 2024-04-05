@@ -5,19 +5,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white;
-    gap: 50px;
+    background-color: black;
+    gap: 125px;
 }
 
 .home-btn{
     color: white;
     background-color: #3b82f6;
     padding: 10px;
-    font-size: 20px;
+    font-size: 25px;
     border-radius: 10px;
+    height: 70px;
     width: 200px;
+    border: none;
 
     &:hover{
         cursor: pointer;
+        background-color: royalblue;
     }
 }
