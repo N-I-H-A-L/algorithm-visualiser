@@ -1,5 +1,5 @@
 import React from 'react';
-import "./css/Grid.css";
+import "../css/Grid.css";
 import { useParams } from '../context/context';
 import { BsGeoAlt, BsGeo, BsBricks, BsVirus
         } from "react-icons/bs";

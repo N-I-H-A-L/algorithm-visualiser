@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/CostBox.css";
+import "../css/CostBox.css";
 
 const CostBox = (props) => {
 
