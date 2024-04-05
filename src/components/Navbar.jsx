@@ -8,7 +8,7 @@ import { BsGeoAlt, BsGeo, BsBricks,
 import { PriorityQueue } from '@datastructures-js/priority-queue';
 
 const Navbar = () => {
-    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, setEditing } = useParams();
+    const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, setEditing, setCost } = useParams();
     const [delay, setDelay] = useState(100);
 
     const handleSelectChange = (e) => {
@@ -61,19 +61,30 @@ const Navbar = () => {
     }
 
     const tracePath = async (path) => {
+        if (path.length < 2) {
+            alert("Path from start node to target node doesn't exist!");
+            setReset(!reset);
+            return;
+        }
+
+        let cost = -1;
+
         for(let i = path.length-1; i>=0; i--){
             const { row, col } = path[i];
             grid[row][col].isVisited = false;
             grid[row][col].isPath = true;
+            cost += grid[row][col].weight;
             setEditing(prevEditing => !prevEditing);
             await timeDelay(delay);
         }
+        setCost(cost);
     }
 
     const getPathMap = (hashMap, target) => {
         const path = [];
         path.push(target);
         let descendant = hashMap.get(JSON.stringify(target));
+        if(descendant == undefined) return path;
         let parsed = JSON.parse(descendant);
         while((parsed.row != -1) && (parsed.col != -1)){
             path.push(parsed);
@@ -247,6 +258,7 @@ const Navbar = () => {
     const handlePlay = () => {
         if(play) return;
         setPlay(true);
+        setMode("playing");
 
         //If algorithm is not chosen.
         if(algo=="" || algo=="none") alert("Please choose an algorithm.");
@@ -283,9 +295,10 @@ const Navbar = () => {
                     <li className="nav-item">
                         <button className={["nav-item-btn", mode=="setWall"?"selected":""].join(" ")} title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
                     </li>
+                    {(algo == "dijkstra")?
                     <li className="nav-item">
                         <button className={["nav-item-btn", mode=="setVirus"?"selected":""].join(" ")} title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
-                    </li>
+                    </li> : ""}
                     <li className="nav-item">
                         <button className="nav-item-btn" onClick={() => setReset(!reset)}><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
                     </li>

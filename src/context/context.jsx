@@ -18,6 +18,7 @@ export const ParamsProvider = ({children}) => {
     const [rows, setRows] = useState(25);
     const [cols, setCols] = useState(42);
     const [grid, setGrid] = useState(getGrid(rows, cols));
+    const [cost, setCost] = useState(0);
     let startLocation = {x: Math.floor(rows/2), y: Math.floor(cols/2)};
     let targetLocation = {x: Math.floor(rows/2 - 4), y: Math.floor(cols/2)};
 
@@ -33,6 +34,7 @@ export const ParamsProvider = ({children}) => {
 
     function restart() {
         setGrid(getGrid(rows, cols));
+        setCost(0);
     }
 
     return (
@@ -47,6 +49,7 @@ export const ParamsProvider = ({children}) => {
                 windowWidth, setWindowWidth,
                 rows, setRows,
                 cols, setCols,
+                cost, setCost,
                 startLocation,
                 targetLocation,
             }}>
