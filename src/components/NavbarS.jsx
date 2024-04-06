@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "../context/context";
 import "../css/NavbarS.css";
 import { GrVolume } from "react-icons/gr";
+import { generateRandomArray } from "../utils/randomArray";
 
 const NavbarS = () => {
-    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo } = useParams();
+    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, array, setArray } = useParams();
     const [speed, setSpeed] = useState(0);
 
     const handleAlgorithmChange = (e) =>{
         setSortingAlgo(e.target.value);
     }   
-    console.log(speed, arraySize, sortingAlgo);
+    
+    useEffect(()=>{
+        const randomArray = generateRandomArray(arraySize);
+        setArray(randomArray);
+    }, [arraySize]);
 
     return (
         <>
