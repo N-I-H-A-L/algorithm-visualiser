@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useParams } from "../context/context";
 import "../css/NavbarS.css";
 import algorithmImage from '../assets/algorithm-50.png';
 import { GrVolume } from "react-icons/gr";
 
 const NavbarS = () => {
-    const [size, setSize] = useState(6);
+    const { arraySize, setArraySize, array, setArray, sortingAlgo, setSortingAlgo, laySorting, setPlaySorting } = useParams();
     const [speed, setSpeed] = useState(0);
 
     return (

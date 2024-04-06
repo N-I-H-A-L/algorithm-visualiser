@@ -9,6 +9,7 @@ export const useParams = () => {
 
 export const ParamsProvider = ({children}) => {
 
+    // For Graph Algorithms
     const [mode, setMode] = useState(null);
     const [algo, setAlgo] = useState('');
     const [editing, setEditing] = useState(0);
@@ -37,6 +38,12 @@ export const ParamsProvider = ({children}) => {
         setCost(0);
     }
 
+    // For Sorting Algorithms
+    const [arraySize, setArraySize] = useState(6);
+    const [array, setArray] = useState([]);
+    const [sortingAlgo, setSortingAlgo] = useState("none");
+    const [playSorting, setPlaySorting] = useState(false);
+
     return (
         <div>
             <context.Provider value={{
@@ -52,6 +59,11 @@ export const ParamsProvider = ({children}) => {
                 cost, setCost,
                 startLocation,
                 targetLocation,
+
+                arraySize, setArraySize,
+                array, setArray,
+                sortingAlgo, setSortingAlgo,
+                playSorting, setPlaySorting,
             }}>
                 {children}
             </context.Provider>
