@@ -1,0 +1,20 @@
+.sort-visualiser-main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10vh 10vw;
+}
+
+.bar-container{
+    display: flex;
+    width: 80vw;
+    height: 70vh;
+    background-color: white;
+}
+
+.bar{
+    background-color: #3b82f6;
+    display: flex;
+    justify-content: center;
+    border: 0.1px solid royalblue;
+}

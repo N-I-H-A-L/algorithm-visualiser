@@ -39,7 +39,7 @@ export const ParamsProvider = ({children}) => {
     }
 
     // For Sorting Algorithms
-    const [arraySize, setArraySize] = useState(6);
+    const [arraySize, setArraySize] = useState(10);
     const [array, setArray] = useState([]);
     const [sortingAlgo, setSortingAlgo] = useState("none");
     const [playSorting, setPlaySorting] = useState(false);

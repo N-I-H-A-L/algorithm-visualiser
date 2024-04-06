@@ -5,7 +5,7 @@ import { GrVolume } from "react-icons/gr";
 import { generateRandomArray } from "../utils/randomArray";
 
 const NavbarS = () => {
-    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, array, setArray } = useParams();
+    const { arraySize, setArraySize, setSortingAlgo, setArray } = useParams();
     const [speed, setSpeed] = useState(0);
 
     const handleAlgorithmChange = (e) =>{
@@ -27,7 +27,7 @@ const NavbarS = () => {
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="6" max="130" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
+                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>
