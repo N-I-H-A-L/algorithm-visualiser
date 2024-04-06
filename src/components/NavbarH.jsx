@@ -7,7 +7,7 @@ const NavbarH = () => {
   return (
     <>
       <div className="home-nav">
-        <img className="logo" src={algorithmImage} alt="Algorithm" />
+        <img className="home-logo" src={algorithmImage} alt="Algorithm" />
       </div>
     </>
   )

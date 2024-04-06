@@ -70,9 +70,3 @@ export const ParamsProvider = ({children}) => {
         </div>
     );
 }
-
-//List of Modes
-//setStart, setDestination, setWall, setVirus
-
-//List of Algos
-//bfs, dfs, dijkstra

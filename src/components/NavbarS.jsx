@@ -4,8 +4,13 @@ import "../css/NavbarS.css";
 import { GrVolume } from "react-icons/gr";
 
 const NavbarS = () => {
-    const { arraySize, setArraySize, array, setArray, sortingAlgo, setSortingAlgo, laySorting, setPlaySorting } = useParams();
+    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo } = useParams();
     const [speed, setSpeed] = useState(0);
+
+    const handleAlgorithmChange = (e) =>{
+        setSortingAlgo(e.target.value);
+    }   
+    console.log(speed, arraySize, sortingAlgo);
 
     return (
         <>
@@ -17,15 +22,15 @@ const NavbarS = () => {
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="6" max="130'" value={arraySize} id="size" onChange={(e) => setSize(e.target.value)}></input>
+                            <input type="range" min="6" max="130" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>
-                            <input type="range" min="0" max="930" value={speed} id="speed" onChange={(e) => setSpeed(e.target.value)}></input>
+                            <input type="range" min="0" max="930" value={speed} id="speed" onChange={(e) => setSpeed(e.target.value)} />
                         </li>
                         <li className="sorting-nav-btns">
-                            <select name="algo-select" id="algo-select">
-                            <option id="none" value="none">Algorithm:</option>
+                            <select name="algo-select" id="algo-select" onChange={(e)=> handleAlgorithmChange(e)}>
+                                <option id="none" value="none">Algorithm:</option>
                                 <option id="bsort" value="bsort">Bubble Sort</option>
                                 <option id="isort" value="isort">Insertion Sort</option>
                                 <option id="ssort" value="ssort">Selection Sort</option>
