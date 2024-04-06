@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import NavbarS from "../components/NavbarS";
 
 const Sorting = () => {
   return (
     <>
-        Sorting Page
+        <NavbarS />
+
     </>
   )
 }
 
-export default Sorting
+export default Sorting;
