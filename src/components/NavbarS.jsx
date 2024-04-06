@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "../context/context";
 import "../css/NavbarS.css";
-import algorithmImage from '../assets/algorithm-50.png';
 import { GrVolume } from "react-icons/gr";
 
 const NavbarS = () => {
@@ -11,9 +10,6 @@ const NavbarS = () => {
     return (
         <>
             <div className="sorting-nav">
-                <div className="sorting-logo">
-                    <img src={algorithmImage} alt="Sorting" />
-                </div>
                 <div className="sorting-nav-items">
                     <ul>
                         <li className="sorting-nav-btns">
@@ -21,7 +17,7 @@ const NavbarS = () => {
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="6" max="130'" value={size} id="size" onChange={(e) => setSize(e.target.value)}></input>
+                            <input type="range" min="6" max="130'" value={arraySize} id="size" onChange={(e) => setSize(e.target.value)}></input>
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>

@@ -1,13 +1,12 @@
 .sorting-nav {
     padding: 15px 1vw;
-    display: flex;
     height: 70px;
-    gap: 40vw;
     background-color: gold;
 }
 
-.sorting-logo img {
-    width: 40px;
+.sorting-nav-items {
+    margin: 0 auto;
+    width: max-content;
 }
 
 .sorting-nav-items ul {
@@ -15,7 +14,7 @@
     list-style-type: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 2vw;
+    gap: 4vw;
 }
 
 .sorting-nav-btns *:hover {
@@ -50,6 +49,8 @@
 @media screen and (max-width: 800px) {
     .sorting-nav {
         height: 165px;
-        gap: 15vw;
     }
+    .sorting-nav-items {
+        width: 100%;
+    }    
 }
