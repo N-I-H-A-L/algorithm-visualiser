@@ -6,7 +6,7 @@ import "../css/NavbarH.css"
 const NavbarH = () => {
   return (
     <>
-      <div className="nav-container">
+      <div className="home-nav">
         <img className="logo" src={algorithmImage} alt="Algorithm" />
       </div>
     </>
