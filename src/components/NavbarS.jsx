@@ -16,9 +16,13 @@ const NavbarS = () => {
         if(playSorting) {
             document.getElementById("newArrBtn").disabled = true;
             document.getElementById("visualizeBtn").disabled = true;
+            document.getElementById("size").disabled = true;
+            document.getElementById("speed").disabled = true;
         } else {
             document.getElementById("newArrBtn").disabled = false;
             document.getElementById("visualizeBtn").disabled = false;
+            document.getElementById("size").disabled = false;
+            document.getElementById("speed").disabled = false;
         }
     }, [playSorting])
 
@@ -40,7 +44,6 @@ const NavbarS = () => {
         }
     }
     
-
     const handleVisualise = () => {
         if(sortingAlgo=="none")   alert("Please choose an algorithm");
         if(sortingAlgo=='bsort') bubbleSort(arraySize);
@@ -62,7 +65,7 @@ const NavbarS = () => {
                 tempArray[j] = tempArray[j + 1];
                 tempArray[j + 1] = temp;
                 setArray(prevArray => {
-                    const newArray = [...tempArray]; 
+                    const newArray = [...tempArray];
                     return newArray;
                 });
                 await timeDelay(delay);

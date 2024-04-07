@@ -35,6 +35,11 @@
         cursor: pointer;
         background-color: royalblue;
     }
+
+    &:disabled{
+        background-color: rgb(136, 159, 227);
+        pointer-events: none;
+    }
 }
 
 #size-controller, #speed-controller {
