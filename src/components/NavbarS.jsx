@@ -5,12 +5,54 @@ import { GrVolume } from "react-icons/gr";
 import { generateRandomArray } from "../utils/randomArray";
 
 const NavbarS = () => {
-    const { arraySize, setArraySize, setSortingAlgo, setArray } = useParams();
+    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, array, setArray } = useParams();
     const [speed, setSpeed] = useState(0);
+
+    async function timeDelay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const handleAlgorithmChange = (e) =>{
         setSortingAlgo(e.target.value);
-    }   
+    }
+
+    const generateNewArray = () => {
+        setArray(generateRandomArray(arraySize));
+    }
+    
+
+    const handleVisualise = () => {
+        if(sortingAlgo=='bsort') bubbleSort(arraySize);
+    }
+
+    const bubbleSort = async (n) => {
+        let tempArray = array;
+        let i, j, k;
+        for (i = 0; i < n - 1; i++) {
+          for (j = 0; j < n - i - 1; j++) {
+            document.getElementById(`bar-${j}`).classList.add('under-evaluation');
+            document.getElementById(`bar-${j+1}`).classList.add('under-evaluation');
+            await timeDelay(500);
+
+            if (tempArray[j] > tempArray[j + 1]) {
+                const temp = tempArray[j];
+                tempArray[j] = tempArray[j + 1];
+                tempArray[j + 1] = temp;
+                setArray(prevArray => {
+                    const newArray = [...tempArray]; 
+                    return newArray;
+                });
+                await timeDelay(500);
+            }
+            document.getElementById(`bar-${j}`).classList.remove('under-evaluation');
+            document.getElementById(`bar-${j+1}`).classList.remove('under-evaluation');
+          }
+
+          document.getElementById(`bar-${n-i-1}`).classList.add('completed');
+        }
+        document.getElementById(`bar-0`).classList.add('completed');
+        setArray(tempArray);
+    }
     
     useEffect(()=>{
         const randomArray = generateRandomArray(arraySize);
@@ -23,7 +65,7 @@ const NavbarS = () => {
                 <div className="sorting-nav-items">
                     <ul>
                         <li className="sorting-nav-btns">
-                            <button className="new-array-btn">New Array</button>
+                            <button className="new-array-btn" onClick={()=> generateNewArray()}>New Array</button>
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
@@ -44,7 +86,7 @@ const NavbarS = () => {
                             </select>
                         </li>
                         <li className="sorting-nav-btns">
-                            <button className="visualize-btn">Visualize!</button>
+                            <button className="visualize-btn" onClick={()=> handleVisualise()}>Visualize!</button>
                         </li>
                         <li className="sorting-nav-btns"><GrVolume size={30}/></li>
                     </ul>

@@ -18,3 +18,12 @@
     justify-content: center;
     border: 0.1px solid royalblue;
 }
+
+.under-evaluation{
+    background-color: orange;
+}
+
+.completed{
+    background-color: greenyellow;
+    border: 0.1px solid green;
+}

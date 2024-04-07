@@ -6,11 +6,11 @@ const SortVisualiser = () => {
     const { array, arraySize } = useParams();
     const bars = [];
 
-    console.log(array);
     for(let i = 0; i<arraySize; i++){
         bars.push(
             <div
                 key = {i}
+                id = {`bar-${i}`}
                 className='bar'
                 style = {{height: `calc((70vh / 1000) * ${array[i]})`, 
                           width: `calc(80vw / ${arraySize})` }}
