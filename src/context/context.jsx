@@ -41,6 +41,7 @@ export const ParamsProvider = ({children}) => {
     // For Sorting Algorithms
     const [arraySize, setArraySize] = useState(10);
     const [array, setArray] = useState([]);
+    const [sortingSpeed, setSortingSpeed] = useState(0);
     const [sortingAlgo, setSortingAlgo] = useState("none");
     const [playSorting, setPlaySorting] = useState(false);
 
@@ -62,6 +63,7 @@ export const ParamsProvider = ({children}) => {
 
                 arraySize, setArraySize,
                 array, setArray,
+                sortingSpeed, setSortingSpeed,
                 sortingAlgo, setSortingAlgo,
                 playSorting, setPlaySorting,
             }}>
