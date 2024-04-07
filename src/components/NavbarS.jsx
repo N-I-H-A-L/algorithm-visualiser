@@ -43,10 +43,29 @@ const NavbarS = () => {
             document.getElementById(`bar-${i}`).classList.remove('completed');
         }
     }
+
+    const handleSizeChange = (e) => {
+        for(let i = 0; i<arraySize; i++){
+            let element = document.getElementById(`bar-${i}`);
+            if (element.classList.contains("completed")) {
+                element.classList.remove("completed");
+            }
+        }
+        setArraySize(e.target.value);
+    }
     
     const handleVisualise = () => {
-        if(sortingAlgo=="none")   alert("Please choose an algorithm");
-        if(sortingAlgo=='bsort') bubbleSort(arraySize);
+        if(sortingAlgo=="none") alert("Please choose an algorithm");
+        if(sortingAlgo=='bsort'){
+            for(let i = 0; i<arraySize; i++){
+                let element = document.getElementById(`bar-${i}`);
+                if (element.classList.contains("completed")) {
+                    element.classList.remove("completed");
+                }
+            }
+            setArray(prev=> prev);
+            bubbleSort(arraySize);
+        }
     }
 
     const bubbleSort = async (n) => {
@@ -97,7 +116,7 @@ const NavbarS = () => {
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
+                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => handleSizeChange(e)} />
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>
