@@ -3,28 +3,31 @@ import { useParams } from "../context/context";
 import "../css/NavbarS.css";
 import { GrVolume } from "react-icons/gr";
 import { generateRandomArray } from "../utils/randomArray";
+import { getBars } from "../utils/generateBars";
 
 const NavbarS = () => {
-    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, array, setArray, sortingSpeed, setSortingSpeed, playSorting, setPlaySorting } = useParams();
+    const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, 
+            array, setArray, sortingSpeed, setSortingSpeed, 
+            playSorting, setPlaySorting, bars, setBars } = useParams();
     const [delay, setDelay] = useState(1000);
 
     useEffect(() => {
         setDelay(1000-sortingSpeed);
     }, [sortingSpeed])
 
-    useEffect(() => {
-        if(playSorting) {
-            document.getElementById("newArrBtn").disabled = true;
-            document.getElementById("visualizeBtn").disabled = true;
-            document.getElementById("size").disabled = true;
-            document.getElementById("speed").disabled = true;
-        } else {
-            document.getElementById("newArrBtn").disabled = false;
-            document.getElementById("visualizeBtn").disabled = false;
-            document.getElementById("size").disabled = false;
-            document.getElementById("speed").disabled = false;
-        }
-    }, [playSorting])
+    // useEffect(() => {
+    //     if(playSorting) {
+    //         document.getElementById("newArrBtn").disabled = true;
+    //         document.getElementById("visualizeBtn").disabled = true;
+    //         document.getElementById("size").disabled = true;
+    //         document.getElementById("speed").disabled = true;
+    //     } else {
+    //         document.getElementById("newArrBtn").disabled = false;
+    //         document.getElementById("visualizeBtn").disabled = false;
+    //         document.getElementById("size").disabled = false;
+    //         document.getElementById("speed").disabled = false;
+    //     }
+    // }, [playSorting])
 
     async function timeDelay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -35,35 +38,29 @@ const NavbarS = () => {
     }
 
     const generateNewArray = () => {
-        setArray(generateRandomArray(arraySize));        
-        const n = arraySize;
-        let i;
-
-        for (i = 0; i < n; i++) {
-            document.getElementById(`bar-${i}`).classList.remove('completed');
-        }
+        console.log("working");
+        setArray(generateRandomArray(arraySize));
+        const tempBars = getBars(array, arraySize);
+        setBars(tempBars);
+        // console.log(bars);
     }
 
     const handleSizeChange = (e) => {
-        for(let i = 0; i<arraySize; i++){
-            let element = document.getElementById(`bar-${i}`);
-            if (element.classList.contains("completed")) {
-                element.classList.remove("completed");
-            }
-        }
         setArraySize(e.target.value);
+        generateNewArray();
     }
     
     const handleVisualise = () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
         if(sortingAlgo=='bsort'){
-            for(let i = 0; i<arraySize; i++){
-                let element = document.getElementById(`bar-${i}`);
-                if (element.classList.contains("completed")) {
-                    element.classList.remove("completed");
-                }
-            }
-            setArray(prev=> prev);
+            // for(let i = 0; i<arraySize; i++){
+            //     let element = document.getElementById(`bar-${i}`);
+            //     if (element.classList.contains("completed")) {
+            //         element.classList.remove("completed");
+            //     }
+            // }
+            // setArray(prev=> prev);
+            // bubbleSort(arraySize);
             bubbleSort(arraySize);
         }
     }
@@ -72,11 +69,13 @@ const NavbarS = () => {
         setPlaySorting(true);
 
         let tempArray = array;
-        let i, j, k;
+        const tempBars = bars;
+        let i, j;
         for (i = 0; i < n - 1; i++) {
           for (j = 0; j < n - i - 1; j++) {
-            document.getElementById(`bar-${j}`).classList.add('under-evaluation');
-            document.getElementById(`bar-${j+1}`).classList.add('under-evaluation');
+            tempBars[j].props.push("under-evaluation");
+            tempBars[j+1].props.push("under-evaluation");
+            // setBars(tempBars);
             await timeDelay(delay);
 
             if (tempArray[j] > tempArray[j + 1]) {
@@ -87,24 +86,25 @@ const NavbarS = () => {
                     const newArray = [...tempArray];
                     return newArray;
                 });
-                await timeDelay(delay);
+                tempBars[j].element = tempBars[j+1].element;
+                tempBars[j+1].element = temp;
+
+                // await timeDelay(delay);
             }
-            document.getElementById(`bar-${j}`).classList.remove('under-evaluation');
-            document.getElementById(`bar-${j+1}`).classList.remove('under-evaluation');
+            tempBars[j].props.pop();
+            tempBars[j+1].props.pop();
+            // setBars(tempBars);
           }
 
-          document.getElementById(`bar-${n-i-1}`).classList.add('completed');
+          tempBars[n-i-1].props.push("completed");
+        //   setBars(tempBars);
         }
-        document.getElementById(`bar-0`).classList.add('completed');
+        tempBars[0].props.push("completed");
         setArray(tempArray);
+        setBars(tempBars);
 
         setPlaySorting(false);
     }
-    
-    useEffect(()=>{
-        const randomArray = generateRandomArray(arraySize);
-        setArray(randomArray);
-    }, [arraySize]);
 
     return (
         <>
