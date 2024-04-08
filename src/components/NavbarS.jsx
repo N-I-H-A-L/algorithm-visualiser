@@ -29,7 +29,7 @@ const NavbarS = () => {
         setPlaySorting(true);
 
         if(sortingAlgo=="none") alert("Please choose an algorithm");
-        if(sortingAlgo=='bsort'){
+        else if(sortingAlgo=='bsort'){
             bubbleSort(arraySize);
         }
         
@@ -43,13 +43,15 @@ const NavbarS = () => {
         for (i = 0; i < n; i++)
             bubbleArr[i] = bars[i].element;
 
-        for (i = 0; i < n - 1; i++) {
+        for (i = 0; i < n-1; i++) {
           for (j = 0; j < n - i - 1; j++) {
-            setBars(prev=> {
-                prev[j].props.push("under-evaluation");
-                prev[j+1].props.push("under-evaluation");
-                return prev;
+            const evaluate = bars.map((item, idx) => {
+                if (idx === j || idx === j+1) {
+                  return { ...item, underEvaluation: true };
+                }
+                return item;
             });
+            setBars(evaluate);
 
             await timeDelay(delay);
             if (bubbleArr[j] > bubbleArr[j + 1]) {
@@ -58,24 +60,28 @@ const NavbarS = () => {
                 bubbleArr[j+1] = temp;
             }
 
-            setBars(prev=> {
-                prev[j].element = bubbleArr[j];
-                prev[j].element = bubbleArr[j+1];
-                prev[j].props.pop();
-                prev[j+1].props.pop();
-                return prev;
+            // console.log("before", bubbleArr)
+            const remEvaluate = bars.map((item, idx) => {
+                return {...item, element: bubbleArr[idx]};
             });
+            setBars(remEvaluate);
           }
-          setBars(prev=> {
-            prev[n-i-1].props.push("completed");
-            return prev;
-          });
-        }
-        setBars(prev=> {
-            prev[0].props.push("completed");
-            return prev;
-        });
 
+          const markCompleted = bars.map((item, idx) => {
+            if (idx === n-i-1) {
+              return { ...item, completed: true};
+            }
+            return item;
+          });
+          setBars(markCompleted);
+
+        }
+        // setBars(prev=> {
+        //     prev[0].completed = true;
+        //     return prev;
+        // });
+
+        console.log(bubbleArr);
         console.log(bars);
     }
 

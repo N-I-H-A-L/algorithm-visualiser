@@ -11,7 +11,8 @@ export function getBars(A, n) {
     for(let i = 0; i < n; i++) {
         bars.push({
             element: A[i],
-            props: ["bar"],
+            underEvaluation: false,
+            completed: false,
         })
     }
 

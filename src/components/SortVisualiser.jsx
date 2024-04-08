@@ -5,6 +5,18 @@ import { useParams } from "../context/context";
 const SortVisualiser = () => {
   const { bars } = useParams();
 
+  const generateClasses = (bar) => {
+    let classes = "bar ";
+    if(bar.underEvaluation){
+      classes += "under-evaluation ";
+    }
+    else if(bar.completed){
+      classes += "completed";
+    }
+
+    return classes;
+  }
+
   return (
     <>
       <div className="sort-visualiser-main">
@@ -13,7 +25,7 @@ const SortVisualiser = () => {
             return <div
                     key={idx}
                     id={`bar-${idx}`}
-                    className={bar.props.join(" ")}
+                    className={generateClasses(bar)}
                     style={{
                       height: `calc((70vh / 1000) * ${bar.element})`,
                       width: `calc(80vw / ${bars.length})`
