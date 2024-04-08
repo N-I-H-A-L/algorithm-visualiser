@@ -10,25 +10,10 @@ const NavbarS = () => {
             array, setArray, sortingSpeed, setSortingSpeed, 
             playSorting, setPlaySorting, bars, setBars } = useParams();
     const [delay, setDelay] = useState(1000);
-    const [render, setRender] = useState(false);
 
     useEffect(() => {
         setDelay(1000-sortingSpeed);
-    }, [sortingSpeed])
-
-    // useEffect(() => {
-    //     if(playSorting) {
-    //         document.getElementById("newArrBtn").disabled = true;
-    //         document.getElementById("visualizeBtn").disabled = true;
-    //         document.getElementById("size").disabled = true;
-    //         document.getElementById("speed").disabled = true;
-    //     } else {
-    //         document.getElementById("newArrBtn").disabled = false;
-    //         document.getElementById("visualizeBtn").disabled = false;
-    //         document.getElementById("size").disabled = false;
-    //         document.getElementById("speed").disabled = false;
-    //     }
-    // }, [playSorting])
+    }, [sortingSpeed]);
 
     async function timeDelay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -65,41 +50,35 @@ const NavbarS = () => {
 
     const bubbleSort = async (n) => {
         setPlaySorting(true);
+        const bubbleArr = array;
 
-        let tempArray = array;
-        const tempBars = bars;
         let i, j;
         for (i = 0; i < n - 1; i++) {
           for (j = 0; j < n - i - 1; j++) {
-            tempBars[j].props.push("under-evaluation");
-            tempBars[j+1].props.push("under-evaluation");
-            setBars(tempBars);
+            setBars(prev=> {
+                prev[j].props.push("under-evaluation");
+                prev[j+1].props.push("under-evaluation");
+                return prev;
+            });
+
             await timeDelay(delay);
-
-            if (tempArray[j] > tempArray[j + 1]) {
-                const temp = tempArray[j];
-                tempArray[j] = tempArray[j + 1];
-                tempArray[j + 1] = temp;
-                setArray(prevArray => {
-                    const newArray = [...tempArray];
-                    return newArray;
+            if (bubbleArr[j] > bubbleArr[j + 1]) {
+                let temp = bubbleArr[j];
+                bubbleArr[j] = bubbleArr[j+1];
+                bubbleArr[j+1] = temp;
+                setArray(prev=> {
+                    prev = [...bubbleArr];
+                    return prev;
                 });
-                tempBars[j].element = tempBars[j+1].element;
-                tempBars[j+1].element = temp;
-
-                // await timeDelay(delay);
             }
-            tempBars[j].props.pop();
-            tempBars[j+1].props.pop();
-            // setBars(tempBars);
-          }
 
-          tempBars[n-i-1].props.push("completed");
-        //   setBars(tempBars);
+            setBars(prev=> {
+                prev[j].props.pop();
+                prev[j+1].props.pop();
+                return prev;
+            });
+          }
         }
-        tempBars[0].props.push("completed");
-        setArray(tempArray);
-        setBars(tempBars);
 
         setPlaySorting(false);
     }
@@ -110,15 +89,15 @@ const NavbarS = () => {
                 <div className="sorting-nav-items">
                     <ul>
                         <li className="sorting-nav-btns">
-                            <button className="new-array-btn" id="newArrBtn" onClick={()=> generateNewArray()}>New Array</button>
+                            <button className="new-array-btn" id="newArrBtn" onClick={()=> generateNewArray()} disabled={playSorting? true: false}>New Array</button>
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
+                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} disabled={playSorting? true: false}/>
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>
-                            <input type="range" min="10" max="1000" value={sortingSpeed} id="speed" onChange={(e) => setSortingSpeed(e.target.value)} />
+                            <input type="range" min="10" max="1000" value={sortingSpeed} id="speed" onChange={(e) => setSortingSpeed(e.target.value)} disabled={playSorting? true: false}/>
                         </li>
                         <li className="sorting-nav-btns">
                             <select name="algo-select" id="algo-select" onChange={(e)=> handleAlgorithmChange(e)}>
@@ -131,7 +110,7 @@ const NavbarS = () => {
                             </select>
                         </li>
                         <li className="sorting-nav-btns">
-                            <button className="visualize-btn" id="visualizeBtn" onClick={()=> handleVisualise()}>Visualize!</button>
+                            <button className="visualize-btn" id="visualizeBtn" onClick={()=> handleVisualise()} disabled={playSorting? true: false}>Visualize!</button>
                         </li>
                         <li className="sorting-nav-btns"><GrVolume size={30}/></li>
                     </ul>
