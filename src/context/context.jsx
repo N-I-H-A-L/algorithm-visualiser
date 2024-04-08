@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState, createContext } from "react";
 import { getGrid } from "../utils/startingGrid";
-import { generateRandomArray } from "../utils/randomArray";
 import { getBars } from "../utils/generateBars";
 
 const context = createContext();
@@ -42,11 +41,10 @@ export const ParamsProvider = ({children}) => {
 
     // For Sorting Algorithms
     const [arraySize, setArraySize] = useState(10);
-    const [array, setArray] = useState(generateRandomArray(arraySize));
     const [sortingSpeed, setSortingSpeed] = useState(0);
     const [sortingAlgo, setSortingAlgo] = useState("none");
     const [playSorting, setPlaySorting] = useState(false);
-    const [bars, setBars] = useState(getBars(array, arraySize));
+    const [bars, setBars] = useState(getBars([], arraySize));
 
     return (
         <div>
@@ -65,7 +63,6 @@ export const ParamsProvider = ({children}) => {
                 targetLocation,
 
                 arraySize, setArraySize,
-                array, setArray,
                 sortingSpeed, setSortingSpeed,
                 sortingAlgo, setSortingAlgo,
                 playSorting, setPlaySorting,
