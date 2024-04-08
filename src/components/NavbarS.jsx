@@ -10,6 +10,7 @@ const NavbarS = () => {
             array, setArray, sortingSpeed, setSortingSpeed, 
             playSorting, setPlaySorting, bars, setBars } = useParams();
     const [delay, setDelay] = useState(1000);
+    const [render, setRender] = useState(false);
 
     useEffect(() => {
         setDelay(1000-sortingSpeed);
@@ -37,18 +38,15 @@ const NavbarS = () => {
         setSortingAlgo(e.target.value);
     }
 
-    const generateNewArray = () => {
-        console.log("working");
-        setArray(generateRandomArray(arraySize));
-        const tempBars = getBars(array, arraySize);
-        setBars(tempBars);
-        // console.log(bars);
-    }
+    useEffect(()=> {
+        const randomArray = generateRandomArray(arraySize);
+        setArray(randomArray);
+    }, [arraySize]);
 
-    const handleSizeChange = (e) => {
-        setArraySize(e.target.value);
-        generateNewArray();
-    }
+    useEffect(()=> {
+        const generateBars = getBars(array, arraySize);
+        setBars(generateBars);
+    }, [array]);
     
     const handleVisualise = () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
@@ -75,7 +73,7 @@ const NavbarS = () => {
           for (j = 0; j < n - i - 1; j++) {
             tempBars[j].props.push("under-evaluation");
             tempBars[j+1].props.push("under-evaluation");
-            // setBars(tempBars);
+            setBars(tempBars);
             await timeDelay(delay);
 
             if (tempArray[j] > tempArray[j + 1]) {
@@ -116,7 +114,7 @@ const NavbarS = () => {
                         </li>
                         <li className="sorting-nav-btns" id="size-controller">
                             <label htmlFor="size">Size</label>
-                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => handleSizeChange(e)} />
+                            <input type="range" min="10" max="100" value={arraySize} id="size" onChange={(e) => setArraySize(e.target.value)} />
                         </li>
                         <li className="sorting-nav-btns" id="speed-controller">
                             <label htmlFor="speed">Speed</label>
