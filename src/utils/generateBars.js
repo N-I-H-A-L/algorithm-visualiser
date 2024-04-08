@@ -1,12 +1,19 @@
 export function getBars(A, n) {
-    const bars = [];
-    let i;
+    if(A.length == 0) {
+        const randomArray = [];
+        for (let i = 0; i < n; i++) {
+            randomArray.push(Math.floor(Math.random() * 901) + 100);
+        }
+        A=randomArray;
+    }
 
-    for(i = 0; i < n; i++) {
+    const bars = [];
+    for(let i = 0; i < n; i++) {
         bars.push({
             element: A[i],
             props: ["bar"],
         })
     }
+
     return bars;
 }
