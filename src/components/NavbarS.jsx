@@ -28,21 +28,16 @@ const NavbarS = () => {
     
     const handleVisualise = () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
-        else if(sortingAlgo=="bsort"){
+        else{
             for(let i = 0; i<bars.length; i++){
                 bars[i].completed = false;
                 bars[i].underEvaluation = false;
+                bars[i].smaller = false;
             }
             setEditing(1-editing);
-            bubbleSort(arraySize);
-        }
-        else if(sortingAlgo=="isort"){
-            for(let i = 0; i<bars.length; i++){
-                bars[i].completed = false;
-                bars[i].underEvaluation = false;
-            }
-            setEditing(1-editing);
-            insertionSort();
+            if(sortingAlgo=="bsort") bubbleSort(arraySize);
+            else if(sortingAlgo=="isort") insertionSort();
+            else if(sortingAlgo=="ssort") selectionSort();
         }
     }
 
@@ -139,6 +134,74 @@ const NavbarS = () => {
         
         console.log(A);
         setPlaySorting(false);
+    }
+
+    const selectionSort = async () => {
+        setPlaySorting(true);
+        let i, j, min_idx;
+        let tempBars = bars;
+
+        for(i = 0; i<bars.length-1; i++){
+            min_idx = i;
+            const updateSmall = bars.map((item, idx)=> {
+                if(idx==min_idx) return {...item, smaller: true};
+                else return {...item, smaller: false};
+            });
+            
+            setBars(updateSmall);
+            tempBars = bars;
+            setEditing(1-editing);
+            await timeDelay(delay.current);
+
+            for (j = i + 1; j < bars.length; j++) {
+                const updateEvaluation = bars.map((item, idx)=> {
+                    if(idx==j) return {...item, underEvaluation: true};
+                    else return item;
+                });
+                setBars(updateEvaluation);
+                tempBars = bars;
+                setEditing(1-editing);
+                
+                await timeDelay(delay.current);
+
+                if (bars[j].element < bars[min_idx].element){
+                    const newSmall = bars.map((item, idx)=> {
+                        if(idx==j) return {...item, smaller: true};
+                        else return {...item, smaller: false};
+                    });
+                    min_idx = j;
+                    
+                    setBars(newSmall);
+                    tempBars = bars;
+                    setEditing(1-editing);
+                    await timeDelay(delay.current);
+                }
+
+                tempBars[j].underEvaluation = false;
+                setBars(tempBars);
+                setEditing(1-editing);
+            }
+    
+            if (min_idx != i){
+                let temp = tempBars[min_idx].element;
+                tempBars[min_idx].element = tempBars[i].element;
+                tempBars[i].element = temp;
+
+                setBars(tempBars);
+                setEditing(1-editing);
+            }
+
+            tempBars[i].completed = true;
+            setBars(tempBars);
+            setEditing(1-editing);
+        }
+        
+        tempBars[bars.length-1].completed = true;
+        setBars(tempBars);
+        setEditing(1-editing);
+
+        setPlaySorting(false);
+        console.log(bars);
     }
 
     return (

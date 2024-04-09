@@ -19,6 +19,10 @@
     border: 0.1px solid royalblue;
 }
 
+.smaller{
+    background-color: red;
+}
+
 .under-evaluation{
     background-color: orange;
 }
