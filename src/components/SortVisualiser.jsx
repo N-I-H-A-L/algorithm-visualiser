@@ -10,7 +10,7 @@ const SortVisualiser = () => {
     if(bar.underEvaluation){
       classes += "under-evaluation ";
     }
-    else if(bar.completed){
+    if(bar.completed){
       classes += "completed";
     }
 
