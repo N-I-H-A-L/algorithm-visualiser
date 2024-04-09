@@ -31,6 +31,9 @@ const NavbarS = () => {
         else if(sortingAlgo=='bsort'){
             bubbleSort(arraySize);
         }
+        else if(sortingAlgo=="isort"){
+            insertionSort();
+        }
     }
 
     const bubbleSort = async (n) => {
@@ -76,6 +79,55 @@ const NavbarS = () => {
             return prev;
         });
 
+        setPlaySorting(false);
+    }
+
+    const insertionSort = async () => {
+        setPlaySorting(true);
+        const A = [], n = arraySize;
+        let i, j, key;
+
+        for(i = 0; i<n; i++)
+            A[i] = bars[i].element;
+
+        for(i = 1; i<n; i++) {
+            key = A[i];
+            var tempBars = bars;
+
+            // For loop for animation
+            for(j = i-1; j>=0; j--) {
+                const evaluate = bars.map((item, idx) => {
+                    if (idx == j) {
+                      return { ...item, underEvaluation: true };
+                    }
+                    return item;
+                });
+                setBars(evaluate);
+                tempBars = bars;
+
+                await timeDelay(delay.current);
+            }
+            
+            // For loop for sorting
+            for(j = i-1; j>=0 && A[j]>key; j--) {
+                A[j+1] = A[j];
+
+                if(A[j]>key) {
+                    tempBars[j+1].element = A[j+1];
+                    setBars(tempBars);
+                    setEditing(1-editing);
+                }
+            }
+
+            A[j+1] = key;
+
+            tempBars[j+1].element = A[j+1];
+            setBars(tempBars);
+            setEditing(1-editing);
+
+        }
+        
+        console.log(A);
         setPlaySorting(false);
     }
 
