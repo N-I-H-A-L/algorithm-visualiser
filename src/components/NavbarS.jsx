@@ -28,10 +28,20 @@ const NavbarS = () => {
     
     const handleVisualise = () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
-        else if(sortingAlgo=='bsort'){
+        else if(sortingAlgo=="bsort"){
+            for(let i = 0; i<bars.length; i++){
+                bars[i].completed = false;
+                bars[i].underEvaluation = false;
+            }
+            setEditing(1-editing);
             bubbleSort(arraySize);
         }
         else if(sortingAlgo=="isort"){
+            for(let i = 0; i<bars.length; i++){
+                bars[i].completed = false;
+                bars[i].underEvaluation = false;
+            }
+            setEditing(1-editing);
             insertionSort();
         }
     }
@@ -54,7 +64,7 @@ const NavbarS = () => {
                 return item;
             });
             setBars(evaluate);
-            var tempBars = bars;
+            let tempBars = bars;
 
             await timeDelay(delay.current);
             if (bubbleArr[j] > bubbleArr[j + 1]) {
@@ -112,11 +122,11 @@ const NavbarS = () => {
             for(j = i-1; j>=0 && A[j]>key; j--) {
                 A[j+1] = A[j];
 
-                if(A[j]>key) {
-                    tempBars[j+1].element = A[j+1];
-                    setBars(tempBars);
-                    setEditing(1-editing);
-                }
+                tempBars[j+1].element = A[j+1];
+                setBars(tempBars);
+                setEditing(1-editing);
+
+                await timeDelay(delay.current);
             }
 
             A[j+1] = key;

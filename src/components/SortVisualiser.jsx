@@ -11,7 +11,7 @@ const SortVisualiser = () => {
       classes += "under-evaluation ";
     }
     if(bar.completed){
-      classes += "completed";
+      classes += "completed ";
     }
 
     return classes;
