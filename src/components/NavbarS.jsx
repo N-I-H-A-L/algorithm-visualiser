@@ -71,14 +71,14 @@ const NavbarS = () => {
             tempBars[j].element = bubbleArr[j];
             tempBars[j+1].element = bubbleArr[j+1];
             setBars(tempBars);
-            setEditing(1-editing);
           }
+
           setBars(prev=> {
             prev[n-i].completed = true;
             return prev;
           });
-          setEditing(1-editing);
         }
+
         setBars(prev=> {
             prev[0].completed = true;
             return prev;
@@ -125,7 +125,6 @@ const NavbarS = () => {
 
             tempBars[j+1].element = A[j+1];
             setBars(tempBars);
-            setEditing(1-editing);
 
             const complete = bars.map((item, idx) => {
                 while (idx <= i) {
@@ -152,7 +151,7 @@ const NavbarS = () => {
             tempBars = bars;
             tempBars[min_idx].smaller = true;
             setBars(tempBars);
-            setEditing(1-editing);
+
             await timeDelay(delay.current);
 
             for (j = i + 1; j < bars.length; j++) {
@@ -162,20 +161,16 @@ const NavbarS = () => {
                 });
                 setBars(updateEvaluation);
                 tempBars = bars;
-                setEditing(1-editing);
                 
                 await timeDelay(delay.current);
 
                 if (bars[j].element < bars[min_idx].element){
                     tempBars = bars;
                     tempBars[min_idx].smaller = false;
-                    setBars(tempBars);
-                    setEditing(1-editing);
 
                     tempBars = bars;
                     tempBars[j].smaller = true;
                     setBars(tempBars);
-                    setEditing(1-editing);
                     await timeDelay(delay.current);
 
                     min_idx = j;
@@ -183,34 +178,25 @@ const NavbarS = () => {
 
                 tempBars[j].underEvaluation = false;
                 setBars(tempBars);
-                setEditing(1-editing);
             }
     
             if (min_idx != i){
                 let temp = tempBars[min_idx].element;
                 tempBars[min_idx].element = tempBars[i].element;
                 tempBars[i].element = temp;
-
                 setBars(tempBars);
-                setEditing(1-editing);
             }
 
             tempBars = bars;
             tempBars[min_idx].smaller = false;
-            setBars(tempBars);
-            setEditing(1-editing);
-
             tempBars[i].completed = true;
             setBars(tempBars);
-            setEditing(1-editing);
         }
         
         tempBars[bars.length-1].completed = true;
         setBars(tempBars);
-        setEditing(1-editing);
 
         setPlaySorting(false);
-        console.log(bars);
     }
 
     return (
