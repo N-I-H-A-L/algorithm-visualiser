@@ -148,13 +148,10 @@ const NavbarS = () => {
 
         for(i = 0; i<bars.length-1; i++){
             min_idx = i;
-            const updateSmall = bars.map((item, idx)=> {
-                if(idx==min_idx) return {...item, smaller: true};
-                else return {...item, smaller: false};
-            });
-            
-            setBars(updateSmall);
+
             tempBars = bars;
+            tempBars[min_idx].smaller = true;
+            setBars(tempBars);
             setEditing(1-editing);
             await timeDelay(delay.current);
 
@@ -170,16 +167,18 @@ const NavbarS = () => {
                 await timeDelay(delay.current);
 
                 if (bars[j].element < bars[min_idx].element){
-                    const newSmall = bars.map((item, idx)=> {
-                        if(idx==j) return {...item, smaller: true};
-                        else return {...item, smaller: false};
-                    });
-                    min_idx = j;
-                    
-                    setBars(newSmall);
                     tempBars = bars;
+                    tempBars[min_idx].smaller = false;
+                    setBars(tempBars);
+                    setEditing(1-editing);
+
+                    tempBars = bars;
+                    tempBars[j].smaller = true;
+                    setBars(tempBars);
                     setEditing(1-editing);
                     await timeDelay(delay.current);
+
+                    min_idx = j;
                 }
 
                 tempBars[j].underEvaluation = false;
@@ -195,6 +194,11 @@ const NavbarS = () => {
                 setBars(tempBars);
                 setEditing(1-editing);
             }
+
+            tempBars = bars;
+            tempBars[min_idx].smaller = false;
+            setBars(tempBars);
+            setEditing(1-editing);
 
             tempBars[i].completed = true;
             setBars(tempBars);
