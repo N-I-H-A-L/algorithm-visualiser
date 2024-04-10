@@ -97,10 +97,17 @@ const NavbarS = () => {
 
         for(i = 1; i<n; i++) {
             key = A[i];
+
             var tempBars = bars;
 
-            // For loop for animation
-            for(j = i-1; j>=0; j--) {
+            for(j = i-1; j>=0 && A[j]>key; j--) {
+                A[j+1] = A[j];
+
+                // Size change happens here
+                tempBars[j+1].element = A[j+1];
+                setBars(tempBars);
+                
+                // Color change happens here
                 const evaluate = bars.map((item, idx) => {
                     if (idx == j) {
                       return { ...item, underEvaluation: true };
@@ -108,31 +115,29 @@ const NavbarS = () => {
                     return item;
                 });
                 setBars(evaluate);
+
                 tempBars = bars;
 
                 await timeDelay(delay.current);
             }
             
-            // For loop for sorting
-            for(j = i-1; j>=0 && A[j]>key; j--) {
-                A[j+1] = A[j];
-
-                tempBars[j+1].element = A[j+1];
-                setBars(tempBars);
-                setEditing(1-editing);
-
-                await timeDelay(delay.current);
-            }
-
             A[j+1] = key;
 
             tempBars[j+1].element = A[j+1];
             setBars(tempBars);
             setEditing(1-editing);
 
+            const complete = bars.map((item, idx) => {
+                while (idx <= i) {
+                  return { ...item, completed: true };
+                }
+                return item;
+            });
+            setBars(complete);
+
+            await timeDelay(delay.current);
         }
-        
-        console.log(A);
+
         setPlaySorting(false);
     }
 
@@ -143,13 +148,10 @@ const NavbarS = () => {
 
         for(i = 0; i<bars.length-1; i++){
             min_idx = i;
-            const updateSmall = bars.map((item, idx)=> {
-                if(idx==min_idx) return {...item, smaller: true};
-                else return {...item, smaller: false};
-            });
-            
-            setBars(updateSmall);
+
             tempBars = bars;
+            tempBars[min_idx].smaller = true;
+            setBars(tempBars);
             setEditing(1-editing);
             await timeDelay(delay.current);
 
@@ -165,16 +167,18 @@ const NavbarS = () => {
                 await timeDelay(delay.current);
 
                 if (bars[j].element < bars[min_idx].element){
-                    const newSmall = bars.map((item, idx)=> {
-                        if(idx==j) return {...item, smaller: true};
-                        else return {...item, smaller: false};
-                    });
-                    min_idx = j;
-                    
-                    setBars(newSmall);
                     tempBars = bars;
+                    tempBars[min_idx].smaller = false;
+                    setBars(tempBars);
+                    setEditing(1-editing);
+
+                    tempBars = bars;
+                    tempBars[j].smaller = true;
+                    setBars(tempBars);
                     setEditing(1-editing);
                     await timeDelay(delay.current);
+
+                    min_idx = j;
                 }
 
                 tempBars[j].underEvaluation = false;
@@ -190,6 +194,11 @@ const NavbarS = () => {
                 setBars(tempBars);
                 setEditing(1-editing);
             }
+
+            tempBars = bars;
+            tempBars[min_idx].smaller = false;
+            setBars(tempBars);
+            setEditing(1-editing);
 
             tempBars[i].completed = true;
             setBars(tempBars);
