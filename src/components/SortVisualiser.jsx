@@ -13,6 +13,9 @@ const SortVisualiser = () => {
     if(bar.completed){
       classes += "completed ";
     }
+    if(bar.special){
+      classes += "special ";
+    }
     if(bar.smaller){
       classes += "smaller ";
     }

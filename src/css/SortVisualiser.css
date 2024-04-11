@@ -19,8 +19,12 @@
     border: 0.1px solid royalblue;
 }
 
-.smaller{
+.special{
     background-color: red;
+}
+
+.smaller{
+    background-color: pink;
 }
 
 .under-evaluation{

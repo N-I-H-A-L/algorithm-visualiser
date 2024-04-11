@@ -26,18 +26,22 @@ const NavbarS = () => {
         setSortingAlgo(e.target.value);
     }
     
-    const handleVisualise = () => {
+    const handleVisualise = async () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
         else{
             for(let i = 0; i<bars.length; i++){
                 bars[i].completed = false;
                 bars[i].underEvaluation = false;
-                bars[i].smaller = false;
+                bars[i].special = false;
             }
             setEditing(1-editing);
             if(sortingAlgo=="bsort") bubbleSort(arraySize);
             else if(sortingAlgo=="isort") insertionSort();
             else if(sortingAlgo=="ssort") selectionSort();
+            else if(sortingAlgo=="qsort"){
+                await quickSort(0, bars.length-1);
+                console.log("after sorting", bars);
+            }
         }
     }
 
@@ -149,7 +153,7 @@ const NavbarS = () => {
             min_idx = i;
 
             tempBars = bars;
-            tempBars[min_idx].smaller = true;
+            tempBars[min_idx].special = true;
             setBars(tempBars);
 
             await timeDelay(delay.current);
@@ -166,10 +170,10 @@ const NavbarS = () => {
 
                 if (bars[j].element < bars[min_idx].element){
                     tempBars = bars;
-                    tempBars[min_idx].smaller = false;
+                    tempBars[min_idx].special = false;
 
                     tempBars = bars;
-                    tempBars[j].smaller = true;
+                    tempBars[j].special = true;
                     setBars(tempBars);
                     await timeDelay(delay.current);
 
@@ -188,7 +192,7 @@ const NavbarS = () => {
             }
 
             tempBars = bars;
-            tempBars[min_idx].smaller = false;
+            tempBars[min_idx].special = false;
             tempBars[i].completed = true;
             setBars(tempBars);
         }
@@ -197,6 +201,60 @@ const NavbarS = () => {
         setBars(tempBars);
 
         setPlaySorting(false);
+    }
+
+    const partition = async (low, high) => {
+        let tempBars = bars;
+        let pivot = tempBars[high].element;
+        tempBars[high].special = true;
+        setBars(tempBars);
+
+        let i = (low-1);
+        
+        for(let j=low; j<=high; j++){
+            tempBars = bars;
+            tempBars[j].underEvaluation = true;
+            setBars(tempBars);
+            await timeDelay(delay.current);
+
+            if(bars[j].element<pivot){
+                i++;
+
+                tempBars = bars;
+                tempBars[j].underEvaluation = false;
+                tempBars[j].smaller = true;
+                let temp = tempBars[i].element;
+                tempBars[i].element = tempBars[j].element;
+                tempBars[j].element = temp;
+                setBars(tempBars);
+                await timeDelay(delay.current);
+            }
+
+            tempBars = bars;
+            tempBars[j].smaller = false;
+            tempBars[j].underEvaluation = false;
+            setBars(tempBars);
+            await timeDelay(delay.current);
+        }
+
+        tempBars = bars;
+        let temp = tempBars[i+1].element;
+        tempBars[i+1].element = tempBars[high].element;
+        tempBars[high].element = temp;
+
+        tempBars[high].special = false;
+        setBars(tempBars);
+        await timeDelay(delay.current);
+
+        return (i+1);
+    }
+
+    const quickSort = async (low, high) => {
+        if(low<high){
+            let pivot_idx = await partition(low, high);
+            await quickSort(low, pivot_idx-1);
+            await quickSort(pivot_idx+1, high);
+        }
     }
 
     return (

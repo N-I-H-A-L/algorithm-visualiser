@@ -13,6 +13,7 @@ export function getBars(A, n) {
             element: A[i],
             underEvaluation: false,
             completed: false,
+            special: false,
             smaller: false,
         })
     }
