@@ -212,9 +212,11 @@ const NavbarS = () => {
         let i = (low-1);
         
         for(let j=low; j<=high; j++){
-            tempBars = bars;
-            tempBars[j].underEvaluation = true;
-            setBars(tempBars);
+            const updateEvaluation = bars.map((item, idx)=> {
+                if(idx==j) return {...item, underEvaluation: true};
+                else return item;
+            });
+            setBars(updateEvaluation);
             await timeDelay(delay.current);
 
             if(bars[j].element<pivot){
@@ -227,14 +229,11 @@ const NavbarS = () => {
                 tempBars[i].element = tempBars[j].element;
                 tempBars[j].element = temp;
                 setBars(tempBars);
-                await timeDelay(delay.current);
             }
 
             tempBars = bars;
             tempBars[j].smaller = false;
-            tempBars[j].underEvaluation = false;
             setBars(tempBars);
-            await timeDelay(delay.current);
         }
 
         tempBars = bars;
@@ -250,10 +249,21 @@ const NavbarS = () => {
     }
 
     const quickSort = async (low, high) => {
+        const n = bars.length;
+        let tempBars = bars;
+
         if(low<high){
             let pivot_idx = await partition(low, high);
+            tempBars[pivot_idx].completed = true;
+            setBars(tempBars);
             await quickSort(low, pivot_idx-1);
             await quickSort(pivot_idx+1, high);
+        } else {
+            if(low>=0 && high>=0 && low<n && high<n) {
+                tempBars[low].completed = true;
+                tempBars[high].completed = true;
+                setBars(tempBars);
+            }
         }
     }
 
