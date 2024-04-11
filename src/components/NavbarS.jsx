@@ -231,6 +231,7 @@ const NavbarS = () => {
                 setBars(tempBars);
             }
 
+            await timeDelay(delay.current);
             tempBars = bars;
             tempBars[j].smaller = false;
             setBars(tempBars);
@@ -242,6 +243,7 @@ const NavbarS = () => {
         tempBars[high].element = temp;
 
         tempBars[high].special = false;
+        tempBars[i+1].completed = true;
         setBars(tempBars);
         await timeDelay(delay.current);
 
@@ -249,21 +251,14 @@ const NavbarS = () => {
     }
 
     const quickSort = async (low, high) => {
-        const n = bars.length;
-        let tempBars = bars;
-
         if(low<high){
             let pivot_idx = await partition(low, high);
-            tempBars[pivot_idx].completed = true;
-            setBars(tempBars);
             await quickSort(low, pivot_idx-1);
             await quickSort(pivot_idx+1, high);
-        } else {
-            if(low>=0 && high>=0 && low<n && high<n) {
-                tempBars[low].completed = true;
-                tempBars[high].completed = true;
-                setBars(tempBars);
-            }
+            const markCompleted = bars.map((item)=> {
+                return {...item, completed: true};
+            })
+            setBars(markCompleted);
         }
     }
 

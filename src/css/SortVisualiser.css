@@ -19,10 +19,6 @@
     border: 0.1px solid royalblue;
 }
 
-.special{
-    background-color: red;
-}
-
 .smaller{
     background-color: pink;
 }
@@ -34,4 +30,8 @@
 .completed{
     background-color: greenyellow;
     border: 0.1px solid green;
+}
+
+.special{
+    background-color: red;
 }
