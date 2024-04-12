@@ -42,6 +42,10 @@ const NavbarS = () => {
                 await quickSort(0, bars.length-1);
                 console.log("after sorting", bars);
             }
+            else if(sortingAlgo=="msort"){
+                await mergeSort(0, bars.length-1);
+                console.log("after sorting", bars);
+            }
         }
     }
 
@@ -260,6 +264,72 @@ const NavbarS = () => {
             })
             setBars(markCompleted);
         }
+    }
+
+    const merge = async (p, q, r) => {
+        const n1 = q-p+1, n2 = r-q;
+        const A = [], L = [], R = [];
+        let i, j, k;
+        let tempBars = bars;
+
+        for(k = p; k<=r; k++)   A[k] = bars[k].element;
+
+        for(i = 0; i<n1; i++) {
+            L[i] = A[p+i];
+            // const updateEvaluation = bars.map((item, idx)=> {
+            //     if(idx==p+i) return {...item, underEvaluation: true};
+            //     else return item;
+            // });
+            // setBars(updateEvaluation);
+            // await timeDelay(delay.current);
+        }   
+
+        for(j = 0; j<n2; j++) {
+            R[j] = A[q+j+1];
+            // const updateEvaluation = bars.map((item, idx)=> {
+            //     if(idx==q+j+1) return {...item, underEvaluation: true};
+            //     else return item;
+            // });
+            // setBars(updateEvaluation);
+            // await timeDelay(delay.current);
+        }   
+
+
+        L[n1] = R[n2] = 99999;
+        i = j = 0;
+
+        for(k = p; k<=r; k++) {
+            if(L[i]<=R[j]) {
+                A[k] = L[i];
+                i++;
+            } else {
+                A[k] = R[j];
+                j++;  
+            }
+        }
+        
+        for(k = p; k<=r; k++){
+            tempBars = bars;
+            tempBars[k].element = A[k];
+            setBars(tempBars);
+        }  
+    
+        
+    }
+
+    const mergeSort = async (p, r) => {
+
+           if(p<r) {
+                const q = Math.floor((p+r)/2);
+                mergeSort(p, q);
+                mergeSort(q+1, r);
+                merge(p, q, r);
+
+            }
+            const markCompleted = bars.map((item)=> {
+                return {...item, completed: true};
+            })
+            setBars(markCompleted);
     }
 
     return (
