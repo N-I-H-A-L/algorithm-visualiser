@@ -38,10 +38,7 @@ const NavbarS = () => {
             if(sortingAlgo=="bsort") bubbleSort(arraySize);
             else if(sortingAlgo=="isort") insertionSort();
             else if(sortingAlgo=="ssort") selectionSort();
-            else if(sortingAlgo=="qsort"){
-                await quickSort(0, bars.length-1);
-                console.log("after sorting", bars);
-            }
+            else if(sortingAlgo=="qsort") quickSort(0, bars.length-1);
             else if(sortingAlgo=="msort"){
                 await mergeSort(0, bars.length-1);
                 console.log("after sorting", bars);
@@ -266,70 +263,49 @@ const NavbarS = () => {
         }
     }
 
-    const merge = async (p, q, r) => {
-        const n1 = q-p+1, n2 = r-q;
-        const A = [], L = [], R = [];
-        let i, j, k;
-        let tempBars = bars;
+    const merge = async (start, mid, end) => {
+        const result = new Array(bars.length);
+        let i = start, j = mid+1, k = start;
 
-        for(k = p; k<=r; k++)   A[k] = bars[k].element;
-
-        for(i = 0; i<n1; i++) {
-            L[i] = A[p+i];
-            // const updateEvaluation = bars.map((item, idx)=> {
-            //     if(idx==p+i) return {...item, underEvaluation: true};
-            //     else return item;
-            // });
-            // setBars(updateEvaluation);
-            // await timeDelay(delay.current);
-        }   
-
-        for(j = 0; j<n2; j++) {
-            R[j] = A[q+j+1];
-            // const updateEvaluation = bars.map((item, idx)=> {
-            //     if(idx==q+j+1) return {...item, underEvaluation: true};
-            //     else return item;
-            // });
-            // setBars(updateEvaluation);
-            // await timeDelay(delay.current);
-        }   
-
-
-        L[n1] = R[n2] = 99999;
-        i = j = 0;
-
-        for(k = p; k<=r; k++) {
-            if(L[i]<=R[j]) {
-                A[k] = L[i];
+        while(i<=mid && j<=end){
+            if(bars[i].element < bars[j].element){
+                result[k] = bars[i].element;
                 i++;
-            } else {
-                A[k] = R[j];
-                j++;  
             }
+            else{
+                result[k] = bars[j].element;
+                j++;
+            }
+            k++;
         }
-        
-        for(k = p; k<=r; k++){
-            tempBars = bars;
-            tempBars[k].element = A[k];
-            setBars(tempBars);
-        }  
-    
-        
+
+        while(i<=mid){
+            result[k] = bars[i].element;
+            i++;
+            k++;
+        }
+
+        while(j<=end){
+            result[k] = bars[j].element;
+            j++;
+            k++;
+        }
+
+        for(let itr = start; itr<=end; itr++) bars[itr].element = result[itr];
     }
 
-    const mergeSort = async (p, r) => {
+    const mergeSort = async (start, end) => {
+        if(start<end) {
+            const mid = Math.floor((start+end)/2);
+            mergeSort(start, mid);
+            mergeSort(mid+1, end);
+            merge(start, mid, end);
 
-           if(p<r) {
-                const q = Math.floor((p+r)/2);
-                mergeSort(p, q);
-                mergeSort(q+1, r);
-                merge(p, q, r);
-
-            }
             const markCompleted = bars.map((item)=> {
                 return {...item, completed: true};
-            })
+            });
             setBars(markCompleted);
+        }
     }
 
     return (
