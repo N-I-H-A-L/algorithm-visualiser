@@ -35,3 +35,13 @@
 .special{
     background-color: red;
 }
+
+@media (max-width: 1000px) {
+    .bar-container{
+        width: 95vw;
+    }
+
+    .sort-visualiser-main{
+        padding: 5vh 5vw;
+    }
+}

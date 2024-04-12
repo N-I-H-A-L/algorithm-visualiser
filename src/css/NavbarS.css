@@ -59,9 +59,35 @@
 
 @media screen and (max-width: 800px) {
     .sorting-nav {
-        height: 165px;
+        height: 130px;
+        padding-top: 8px;
     }
+
     .sorting-nav-items {
         width: 100%;
-    }    
+        padding-left: 15px;
+    }
+
+    .sorting-nav-btns{
+        padding: 0 10px;
+    }
+
+    .new-array-btn, .visualize-btn{
+        padding: 5px;
+        font-size: 15px;
+    }
+
+    #algo-select{
+        font-size: 15px;
+        padding: 5px;
+    }
+
+    #size-controller, #speed-controller{
+        font-size: 15px;
+        margin-left: 5px;
+    }
+
+    .sorting-nav-items ul{
+        gap: 2.5vw;
+    }
 }

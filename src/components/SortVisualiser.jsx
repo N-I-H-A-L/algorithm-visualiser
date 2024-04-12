@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "../css/SortVisualiser.css";
 import { useParams } from "../context/context";
 
 const SortVisualiser = () => {
   const { bars } = useParams();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const getElement = (bar) => {
+    if(screenWidth<1000){
+      if(bars.length>10) return '';
+      else return bar.element;
+    }
+    else{
+      if(bars.length>40) return '';
+      else return bar.element;
+    }
+  }
 
   const generateClasses = (bar) => {
     let classes = "bar ";
@@ -34,9 +59,9 @@ const SortVisualiser = () => {
                     className={generateClasses(bar)}
                     style={{
                       height: `calc((70vh / 1000) * ${bar.element})`,
-                      width: `calc(80vw / ${bars.length})`
+                      width: `calc(95vw / ${bars.length})`
                     }}
-                  >{bars.length < 40 ? bar.element : ''}</div>
+                  >{getElement(bar)}</div>
           })}
         </div>
       </div>

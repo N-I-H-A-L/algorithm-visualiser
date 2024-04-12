@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "../context/context";
 import "../css/NavbarS.css";
-import { GrVolume } from "react-icons/gr";
 import { getBars } from "../utils/generateBars";
 
 const NavbarS = () => {
@@ -267,6 +266,13 @@ const NavbarS = () => {
         const result = new Array(bars.length);
         let i = start, j = mid+1, k = start;
 
+        const tempBars = bars;
+        for(let itr = start; itr<=end; itr++){
+            tempBars[itr].underEvaluation = true;
+        }
+        setBars(tempBars);
+        await timeDelay(delay.current);
+
         while(i<=mid && j<=end){
             if(bars[i].element < bars[j].element){
                 result[k] = bars[i].element;
@@ -292,19 +298,30 @@ const NavbarS = () => {
         }
 
         for(let itr = start; itr<=end; itr++) bars[itr].element = result[itr];
+
+        for(let itr = start; itr<=end; itr++){
+            tempBars[itr].underEvaluation = false;
+        }
+        setBars(tempBars);
+        await timeDelay(delay.current);
     }
 
     const mergeSort = async (start, end) => {
         if(start<end) {
             const mid = Math.floor((start+end)/2);
-            mergeSort(start, mid);
-            mergeSort(mid+1, end);
-            merge(start, mid, end);
+            await mergeSort(start, mid);
+            await mergeSort(mid+1, end);
+            await merge(start, mid, end);
 
-            const markCompleted = bars.map((item)=> {
-                return {...item, completed: true};
+            const markCompleted = bars.map((item, idx)=> {
+                if(idx>=start && idx<=end){
+                    return {...item, completed: true};
+                }
+                return {...item};
             });
             setBars(markCompleted);
+
+            await timeDelay(delay.current);
         }
     }
 
@@ -337,7 +354,6 @@ const NavbarS = () => {
                         <li className="sorting-nav-btns">
                             <button className="visualize-btn" id="visualizeBtn" onClick={()=> handleVisualise()} disabled={playSorting}>Visualize!</button>
                         </li>
-                        <li className="sorting-nav-btns"><GrVolume size={30}/></li>
                     </ul>
                 </div>
             </div>
@@ -346,6 +362,3 @@ const NavbarS = () => {
 }
 
 export default NavbarS;
-
-// import { GrVolumeMute } from "react-icons/gr";
-// <GrVolumeMute />
