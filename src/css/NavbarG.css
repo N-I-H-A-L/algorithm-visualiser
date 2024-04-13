@@ -24,11 +24,11 @@
     padding: 8px 14px;
     background-color: #3b82f6;
     color: white;
+    border: 0;
     border-radius: 1vw;
 }
 
 .nav-item-btn:hover {
-    background-color: royalblue;
     cursor: pointer;
 }
 

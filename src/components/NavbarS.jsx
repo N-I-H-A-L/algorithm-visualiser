@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useEffect, useRef } from "react";
 import { useParams } from "../context/context";
 import "../css/NavbarS.css";
 import { getBars } from "../utils/generateBars";
