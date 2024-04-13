@@ -1,6 +1,5 @@
 .main{
-    height: calc(100vh - 70px);
-    width: 99vw;
+    height: calc(100vh - 72px);
     display: flex;
     flex-direction: column;
     justify-content: center;

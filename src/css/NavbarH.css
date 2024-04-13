@@ -3,6 +3,7 @@
     height: 70px;
     display: flex;
     align-items: center;
+    padding: 30px;
 }
 
 .home-logo{
@@ -11,4 +12,10 @@
     position: absolute;
     left: 45px;
     border-radius: 50px;
+}
+
+@media (max-width: 1000px){
+    .home-logo{
+        left: 25px;
+    }        
 }
