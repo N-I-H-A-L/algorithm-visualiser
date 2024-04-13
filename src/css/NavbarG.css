@@ -25,11 +25,16 @@
     background-color: #3b82f6;
     color: white;
     border-radius: 1vw;
-}
 
-.nav-item-btn:hover {
-    background-color: royalblue;
-    cursor: pointer;
+    &:hover{
+        background-color: royalblue;
+        cursor: pointer;
+    }
+
+    &:disabled{
+        background-color: rgb(126, 155, 241);
+        pointer-events: none;
+    }
 }
 
 #algoSelect {

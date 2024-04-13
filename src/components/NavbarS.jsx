@@ -26,19 +26,26 @@ const NavbarS = () => {
     
     const handleVisualise = async () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
-        else if(sortingAlgo=="bsort") bubbleSort(arraySize);
-        else if(sortingAlgo=="isort") insertionSort();
-        else if(sortingAlgo=="ssort") selectionSort();
-        else if(sortingAlgo=="qsort") {
-            setPlaySorting(true);
-            await quickSort(0, bars.length-1);
-            setPlaySorting(false);
-        } 
-        else if(sortingAlgo=="msort") {
-            setPlaySorting(true);
-            await mergeSort(0, bars.length-1);
-            setPlaySorting(false);
-        } 
+        else{
+            const tempBars = bars;
+            for(let i = 0; i<bars.length; i++){
+                bars[i].completed = false;
+            }
+            setBars(tempBars);
+            if(sortingAlgo=="bsort") bubbleSort(arraySize);
+            else if(sortingAlgo=="isort") insertionSort();
+            else if(sortingAlgo=="ssort") selectionSort();
+            else if(sortingAlgo=="qsort") {
+                setPlaySorting(true);
+                await quickSort(0, bars.length-1);
+                setPlaySorting(false);
+            } 
+            else if(sortingAlgo=="msort") {
+                setPlaySorting(true);
+                await mergeSort(0, bars.length-1);
+                setPlaySorting(false);
+            } 
+        }
     }
 
     const bubbleSort = async (n) => {

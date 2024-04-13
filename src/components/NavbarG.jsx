@@ -10,6 +10,7 @@ import { PriorityQueue } from '@datastructures-js/priority-queue';
 const Navbar = () => {
     const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, setEditing, setCost } = useParams();
     const [delay, setDelay] = useState(100);
+    const [playState, setPlayState] = useState(false);
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
@@ -43,6 +44,14 @@ const Navbar = () => {
 
     async function timeDelay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const updatePlayState = () => {
+        let returnValue;
+        if(play) returnValue = false;
+        else returnValue = true;
+        setPlay(returnValue);
+        return returnValue;
     }
 
     const initializePi = () => {
@@ -257,7 +266,8 @@ const Navbar = () => {
 
     const handlePlay = () => {
         if(play) return;
-        setPlay(true);
+        setPlayState(updatePlayState());
+        setEditing(prev=> !prev);
         setMode("playing");
 
         //If algorithm is not chosen.
@@ -287,23 +297,23 @@ const Navbar = () => {
             <nav className="nav-container">
                 <ul className="nav-item-container">
                     <li className="nav-item">
-                        <button className={["nav-item-btn", mode=="setStart"?"selected":""].join(" ")} title="Start" onClick={handleModeChange}><BsGeoAlt size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setStart"?"selected":""].join(" ")} title="Start" onClick={handleModeChange} disabled={playState}><BsGeoAlt size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className={["nav-item-btn", mode=="setTarget"?"selected":""].join(" ")} title="Target" onClick={handleModeChange}><BsGeo size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setTarget"?"selected":""].join(" ")} title="Target" onClick={handleModeChange} disabled={playState}><BsGeo size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className={["nav-item-btn", mode=="setWall"?"selected":""].join(" ")} title="Wall" onClick={handleModeChange}><BsBricks size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setWall"?"selected":""].join(" ")} title="Wall" onClick={handleModeChange} disabled={playState}><BsBricks size={"20px"}/></button>
                     </li>
                     {(algo == "dijkstra")?
                     <li className="nav-item">
-                        <button className={["nav-item-btn", mode=="setVirus"?"selected":""].join(" ")} title="Virus" onClick={handleModeChange}><BsVirus size={"20px"}/></button>
+                        <button className={["nav-item-btn", mode=="setVirus"?"selected":""].join(" ")} title="Virus" onClick={handleModeChange} disabled={playState}><BsVirus size={"20px"}/></button>
                     </li> : ""}
                     <li className="nav-item">
-                        <button className="nav-item-btn" onClick={() => setReset(!reset)}><BsArrowCounterclockwise title="Restart" size={"20px"} /></button>
+                        <button className="nav-item-btn" onClick={() => {setReset(!reset); setPlay(false); setPlayState(false);}}><BsArrowCounterclockwise title="Restart" size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-item-btn" onClick={() => handlePlay()}><BsCaretRight title="Play" size={"20px"} /></button>
+                        <button className="nav-item-btn" onClick={() => handlePlay()} disabled={playState}><BsCaretRight title="Play" size={"20px"}/></button>
                     </li>
                     <li className="nav-item">
                         <select name="algoSelect" id="algoSelect" value={algo} onChange={(e) => handleSelectChange(e)}>
@@ -311,7 +321,6 @@ const Navbar = () => {
                             <option id="bfs" value="bfs">BFS</option>
                             <option id="dfs" value="dfs">DFS</option>
                             <option id="dijkstra" value="dijkstra">Dijkstra</option>
-                            {/* <option value="bds">BDS</option> */}
                         </select>
                     </li>
                     <li>
