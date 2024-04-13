@@ -266,17 +266,19 @@ const Navbar = () => {
 
     const handlePlay = () => {
         if(play) return;
-        setPlayState(updatePlayState());
-        setEditing(prev=> !prev);
-        setMode("playing");
 
         //If algorithm is not chosen.
-        if(algo=="" || algo=="none") alert("Please choose an algorithm.");
+        if(algo=="" || algo=="none"){
+            alert("Please choose an algorithm.");
+            return;
+        }
         const [start, target] = getStartAndTarget();
 
         //If start and target are not set.
         if(start==null || target==null) alert("Please choose a start and target location.");
         else{
+            setPlayState(updatePlayState());
+            setMode("playing");
             if(algo=="bfs"){
                 bfs(start, target);
             }
