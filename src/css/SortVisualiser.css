@@ -17,6 +17,7 @@
     display: flex;
     justify-content: center;
     border: 0.1px solid royalblue;
+    transition: height 0.1s ease-in;
 }
 
 .smaller{

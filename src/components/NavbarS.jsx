@@ -7,7 +7,6 @@ const NavbarS = () => {
     const { arraySize, setArraySize, sortingAlgo, setSortingAlgo, sortingSpeed, setSortingSpeed, 
             playSorting, setPlaySorting, bars, setBars } = useParams();
     const delay = useRef(1000);
-    const [editing, setEditing] = useState(0);
 
     useEffect(() => {
         delay.current = 500-sortingSpeed;
@@ -27,22 +26,19 @@ const NavbarS = () => {
     
     const handleVisualise = async () => {
         if(sortingAlgo=="none") alert("Please choose an algorithm");
-        else{
-            for(let i = 0; i<bars.length; i++){
-                bars[i].completed = false;
-                bars[i].underEvaluation = false;
-                bars[i].special = false;
-            }
-            setEditing(1-editing);
-            if(sortingAlgo=="bsort") bubbleSort(arraySize);
-            else if(sortingAlgo=="isort") insertionSort();
-            else if(sortingAlgo=="ssort") selectionSort();
-            else if(sortingAlgo=="qsort") quickSort(0, bars.length-1);
-            else if(sortingAlgo=="msort"){
-                await mergeSort(0, bars.length-1);
-                console.log("after sorting", bars);
-            }
-        }
+        else if(sortingAlgo=="bsort") bubbleSort(arraySize);
+        else if(sortingAlgo=="isort") insertionSort();
+        else if(sortingAlgo=="ssort") selectionSort();
+        else if(sortingAlgo=="qsort") {
+            setPlaySorting(true);
+            await quickSort(0, bars.length-1);
+            setPlaySorting(false);
+        } 
+        else if(sortingAlgo=="msort") {
+            setPlaySorting(true);
+            await mergeSort(0, bars.length-1);
+            setPlaySorting(false);
+        } 
     }
 
     const bubbleSort = async (n) => {

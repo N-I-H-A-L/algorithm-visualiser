@@ -61,7 +61,16 @@ input[type=number]::-webkit-outer-spin-button {
         flex-wrap: wrap;
    }
 
+   .nav-item-btn {
+        border-radius: 5vw;
+    }
+
    #algoSelect {
+    font-size: 12px;
     width: 32vw;
    }
+   .delay-input{
+    width: 15vw;
+    font-size: 12px;
+}
 }

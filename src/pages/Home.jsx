@@ -17,6 +17,7 @@ const Home = () => {
   return (
     <>
       <NavbarH />
+      <hr></hr>
       <div className="main">  
         <button className="home-btn" onClick={()=> redirectGraph()}>Graphs</button>
         <button className="home-btn" onClick={()=> redirectSorting()}>Sorting</button>
