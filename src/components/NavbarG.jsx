@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/NavbarG.css";
 import { useParams } from "../context/context";
 import { BsGeoAlt, BsGeo, BsBricks, 
@@ -11,6 +11,11 @@ const Navbar = () => {
     const { algo, setAlgo, mode, setMode, reset, setReset, play, setPlay, grid, setEditing, setCost } = useParams();
     const [delay, setDelay] = useState(100);
     const [playState, setPlayState] = useState(false);
+
+    useEffect(() => {
+        setReset(!reset);
+        setPlayState(false);
+    }, [algo])
 
     const handleSelectChange = (e) => {
         setAlgo(e.target.value);
