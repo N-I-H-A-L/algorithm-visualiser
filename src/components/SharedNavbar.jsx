@@ -21,8 +21,7 @@ export default function SharedNavbar() {
   return (
     <header className="shared-navbar">
       <Link to="/" className="nav-brand">
-        <span className="brand-dot" />
-        <span className="brand-title">Algo<strong>Craft</strong></span>
+        <span className="brand-title">Algo<strong>Viz</strong></span>
       </Link>
 
       <nav className="nav-menu">
