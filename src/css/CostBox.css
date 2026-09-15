@@ -1,7 +1,31 @@
-.costBox {
-    background-color: white;
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    padding: 5px;
+.cost-hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+
+.cost-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.cost-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.cost-value {
+  font-family: var(--mono-font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #059669;
 }

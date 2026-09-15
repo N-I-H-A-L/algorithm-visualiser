@@ -1,34 +1,85 @@
-:root{
-    --border-width: calc(var(--rows)*0.5);
-    --total-height: calc(100vh - 70px);
+.grid-container {
+  display: grid;
+  gap: 1.5px;
+  background-color: var(--card-border);
+  padding: 4px;
+  border-radius: 8px;
+  user-select: none;
 }
 
-@media screen and (max-width: 800px) {
-    :root {
-        --total-height: calc(100vh - 150px);
-    }
+.grid-cell {
+  width: 26px;
+  height: 26px;
+  background-color: var(--grid-cell-bg);
+  border: 1px solid var(--grid-cell-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
-.grid-row{
-    height: calc(var(--total-height)/var(--rows));
-    width: calc(100vw - var(--border-width));
-    display: flex;
+.grid-cell:hover {
+  border-color: var(--primary);
+  transform: scale(1.08);
+  z-index: 5;
 }
 
-.grid-cell{
-    height: 100%;
-    width: calc(100vw/var(--cols));
-    background-color: var(--bs-gray-100);
-    border: 0.5px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.cell-wall {
+  background-color: #334155 !important;
+  border-color: #1e293b !important;
+  animation: wallPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.visited{
-    background-color: yellow;
+@keyframes wallPop {
+  0% { transform: scale(0.3); }
+  100% { transform: scale(1); }
 }
 
-.path{
-    background-color: red;
+.cell-visited {
+  animation: visitedRipple 0.4s ease-out forwards;
+}
+
+@keyframes visitedRipple {
+  0% {
+    transform: scale(0.4);
+    background-color: rgba(236, 72, 153, 0.7);
+    border-radius: 50%;
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.6);
+    border-radius: 2px;
+  }
+}
+
+.cell-path {
+  background-color: #fbbf24 !important;
+  border-color: #f59e0b !important;
+  animation: pathPulse 0.35s ease-out forwards;
+}
+
+@keyframes pathPulse {
+  0% { transform: scale(0.6); background-color: #f43f5e; }
+  100% { transform: scale(1); background-color: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
+}
+
+.cell-icon {
+  pointer-events: none;
+}
+
+.icon-start {
+  color: #10b981;
+  font-size: 15px;
+}
+
+.icon-target {
+  color: #ef4444;
+  font-size: 15px;
+}
+
+.icon-weight {
+  color: #ec4899;
+  font-size: 14px;
 }

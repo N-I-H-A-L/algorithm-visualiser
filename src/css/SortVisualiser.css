@@ -1,48 +1,66 @@
-.sort-visualiser-main{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10vh 10vw;
+.sort-stage-wrapper {
+  width: 100%;
+  height: 60vh;
+  min-height: 380px;
+  background: var(--canvas-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem 1rem;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
 }
 
-.bar-container{
-    display: flex;
-    width: 80vw;
-    height: 70vh;
-    background-color: white;
+.sort-canvas-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
 }
 
-.bar{
-    background-color: #3b82f6;
-    display: flex;
-    justify-content: center;
-    border: 0.1px solid royalblue;
-    transition: height 0.1s ease-in;
+.sort-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--primary) 0%, #4338ca 100%);
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 6px;
+  position: relative;
+  transition: height 0.15s ease, background 0.15s ease;
+  min-width: 3px;
 }
 
-.smaller{
-    background-color: pink;
+.bar-label {
+  font-family: var(--mono-font);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #ffffff;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  user-select: none;
+  pointer-events: none;
 }
 
-.under-evaluation{
-    background-color: orange;
+.bar-evaluating {
+  background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%) !important;
+  box-shadow: 0 -3px 10px rgba(245, 158, 11, 0.4);
 }
 
-.completed{
-    background-color: greenyellow;
-    border: 0.1px solid green;
+.bar-special {
+  background: linear-gradient(180deg, #f472b6 0%, #db2777 100%) !important;
+  box-shadow: 0 -3px 10px rgba(236, 72, 153, 0.4);
 }
 
-.special{
-    background-color: red;
+.bar-smaller {
+  background: linear-gradient(180deg, #22d3ee 0%, #0891b2 100%) !important;
+  box-shadow: 0 -3px 10px rgba(6, 182, 212, 0.4);
 }
 
-@media (max-width: 1000px) {
-    .bar-container{
-        width: 95vw;
-    }
-
-    .sort-visualiser-main{
-        padding: 5vh 5vw;
-    }
+.bar-completed {
+  background: linear-gradient(180deg, #34d399 0%, #059669 100%) !important;
 }
