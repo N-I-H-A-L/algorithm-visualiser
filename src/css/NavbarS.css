@@ -1,93 +1,162 @@
-.sorting-nav {
-    padding: 15px 1vw;
-    height: 70px;
-    background-color: gold;
+.sorting-control-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem 2.5rem;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
 }
 
-.sorting-nav-items {
-    margin: 0 auto;
-    width: max-content;
+.controls-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.sorting-nav-items ul {
-    padding: 0;
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4vw;
-    align-items: center;
+.btn-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.sorting-nav-btns *:hover {
-    cursor: pointer;
+.btn-control:hover:not(:disabled) {
+  border-color: var(--primary);
 }
 
-.new-array-btn, .visualize-btn {
-    padding: 10px;
-    width: 125px;
-    background-color: #3b82f6;
-    color: white;
-    font-size: large;
-    border: 0px;
-    border-radius: 5px;
-
-    &:hover{
-        cursor: pointer;
-        background-color: royalblue;
-    }
-
-    &:disabled{
-        background-color: rgb(136, 159, 227);
-        pointer-events: none;
-    }
+.btn-control:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-#size-controller, #speed-controller {
-    display: flex;
-    flex-direction: column;
+.slider-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 130px;
 }
 
-#algo-select {
-    width: 150px;
-    padding: 8px;
-    border: 0px;
-    font-size: large;
-    background-color: #3b82f6;
-    color: white;
-    border-radius: 5px;
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
 }
 
-@media screen and (max-width: 800px) {
-    .sorting-nav {
-        height: 140px;
-        padding-top: 8px;
-    }
+.slider-val {
+  color: var(--primary);
+  font-family: var(--mono-font);
+}
 
-    .sorting-nav-items {
-        width: 100%;
-        padding-left: 15px;
-    }
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  border-radius: 4px;
+  background: rgba(125, 125, 125, 0.25);
+  outline: none;
+  cursor: pointer;
+}
 
-    .sorting-nav-btns{
-        padding: 0 10px;
-    }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 6px var(--primary);
+}
 
-    .new-array-btn, .visualize-btn{
-        padding: 5px;
-        font-size: 15px;
-    }
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-    #algo-select{
-        font-size: 15px;
-        padding: 5px;
-    }
+.algo-dropdown {
+  background: var(--input-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9px;
+  outline: none;
+  cursor: pointer;
+}
 
-    #size-controller, #speed-controller{
-        font-size: 15px;
-        margin-left: 5px;
-    }
+.algo-dropdown:focus {
+  border-color: var(--primary);
+}
 
-    .sorting-nav-items ul{
-        gap: 2.5vw;
-    }
+.btn-visualize {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.62rem 1.5rem;
+  border-radius: 9px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+}
+
+.btn-visualize:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Add to src/css/NavbarS.css and src/css/NavbarG.css */
+
+.btn-stop,
+.btn-stop-graph {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
+  color: #ffffff !important;
+}
+
+.btn-stop:hover,
+.btn-stop-graph:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  transform: translateY(-1px);
+}
+
+.reload-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reload-page-btn:hover {
+  color: var(--primary);
+  border-color: var(--primary);
 }

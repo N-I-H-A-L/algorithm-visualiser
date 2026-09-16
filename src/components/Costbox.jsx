@@ -1,13 +1,14 @@
 import React from "react";
 import "../css/CostBox.css";
 
-const CostBox = (props) => {
-
-    return (
-        <div className="costBox">
-            <h3 className="costBox-item">Cost of the path is: {props.cost}</h3>
-        </div>
-    );
-}
+const CostBox = ({ cost }) => {
+  return (
+    <div className="cost-hud-badge">
+      <span className="cost-indicator" />
+      <span className="cost-label">Path Cost:</span>
+      <span className="cost-value">{cost}</span>
+    </div>
+  );
+};
 
 export default CostBox;
